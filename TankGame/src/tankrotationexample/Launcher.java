@@ -59,7 +59,7 @@ public class Launcher {
         this.gamePanel = new GameWorld(this); // create a new game panel
         this.gamePanel.InitializeGame(); // initialize game, but DO NOT start game
         this.endPanel = new EndGamePanel(this); // create a new end game pane;
-        cl = new CardLayout(); // creating a new CardLayout Panel
+        cl = new CardLayout(); // creating a new CardLayout Panel, kinda like a rolodex, shows one at a time only
         this.mainPanel.setLayout(cl); // set the layout of the main panel to our card layout
         this.mainPanel.add(startPanel, "start"); //add the start panel to the main panel
         this.mainPanel.add(gamePanel, "game");   //add the game panel to the main panel

@@ -17,7 +17,7 @@ public class Tank{
     private float vy;
     private float angle;
 
-    private float R = 5;
+    private float R = 5; //r-value is the hypotenuse
     private float ROTATIONSPEED = 3.0f;
 
     private BufferedImage img;
@@ -140,6 +140,7 @@ public class Tank{
     void drawImage(Graphics g) {
         AffineTransform rotation = AffineTransform.getTranslateInstance(x, y);
         rotation.rotate(Math.toRadians(angle), this.img.getWidth() / 2.0, this.img.getHeight() / 2.0);
+        //rotation.scale(3.9, 3.9)
         Graphics2D g2d = (Graphics2D) g;
         g2d.drawImage(this.img, rotation, null);
         g2d.setColor(Color.RED);

@@ -44,6 +44,7 @@ public class GameWorld extends JPanel implements Runnable {
             while (true) {
                 this.tick++;
                 this.t1.update(); // update tank
+                //check for collisions
                 this.repaint();   // redraw game
                 
                 /*
@@ -112,6 +113,13 @@ public class GameWorld extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
         Graphics2D buffer = world.createGraphics();
         this.t1.drawImage(buffer);
+
+
+
+
+
+
+
         g2.drawImage(world, 0, 0, null);
     }
 

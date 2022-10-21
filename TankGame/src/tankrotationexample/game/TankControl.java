@@ -33,12 +33,12 @@ public class TankControl implements KeyListener {
     }
 
     @Override
-    public void keyTyped(KeyEvent ke) {
+    public void keyTyped(KeyEvent ke) { //press up and down real quick
 
     }
 
     @Override
-    public void keyPressed(KeyEvent ke) {
+    public void keyPressed(KeyEvent ke) { //hold a key down
         int keyPressed = ke.getKeyCode();
         if (keyPressed == up) {
             this.t1.toggleUpPressed();
@@ -57,8 +57,9 @@ public class TankControl implements KeyListener {
     }
 
     @Override
-    public void keyReleased(KeyEvent ke) {
+    public void keyReleased(KeyEvent ke) { //when a key is released
         int keyReleased = ke.getKeyCode();
+        //do not use if else, need to be able to work if two keys are pressed
         if (keyReleased  == up) {
             this.t1.unToggleUpPressed();
         }

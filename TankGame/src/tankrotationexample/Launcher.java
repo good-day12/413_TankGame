@@ -57,6 +57,9 @@ public class Launcher {
         this.mainPanel = new JPanel(); // create a new main panel
         this.startPanel = new StartMenuPanel(this); // create a new start panel
         this.gamePanel = new GameWorld(this); // create a new game panel
+
+        Resources.loadResources(); //load all of our resources
+
         this.gamePanel.InitializeGame(); // initialize game, but DO NOT start game
         this.endPanel = new EndGamePanel(this); // create a new end game pane;
         cl = new CardLayout(); // creating a new CardLayout Panel, kinda like a rolodex, shows one at a time only

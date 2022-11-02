@@ -26,6 +26,7 @@ public class GameWorld extends JPanel implements Runnable {
     private BufferedImage world;
 
     private Tank t1;
+    private Tank t2;
     private Launcher lf;
     private long tick = 0;
 
@@ -44,6 +45,8 @@ public class GameWorld extends JPanel implements Runnable {
             while (true) {
                 this.tick++;
                 this.t1.update(); // update tank
+                this.t2.update(); // update tank
+
                 //check for collisions
                 this.repaint();   // redraw game
                 
@@ -80,7 +83,7 @@ public class GameWorld extends JPanel implements Runnable {
 
     /**
      * Load all resources for Tank Wars Game. Set all Game Objects to their
-     * initial state as well.
+     * initial state as well. will be ugly and big
      */
     public void InitializeGame() {
         this.world = new BufferedImage(GameConstants.GAME_SCREEN_WIDTH,
@@ -88,15 +91,20 @@ public class GameWorld extends JPanel implements Runnable {
                 BufferedImage.TYPE_INT_RGB);
 
         BufferedImage t1img = null;
+       // BufferedImage t2img = null;
         try {
             /*
              * note class loaders read files from the out folder (build folder in Netbeans) and not the
              * current working directory. When running a jar, class loaders will read from withing the jar.
              */
             t1img = ImageIO.read(
-                    Objects.requireNonNull(GameWorld.class.getClassLoader().getResource("tank1.png"),
+                    Objects.requireNonNull(GameWorld.class.getClassLoader().getResource("Tank/tank1.png"),
                     "Could not find tank1.png")
             );
+//            t2img = ImageIO.read(
+//                    Objects.requireNonNull(GameWorld.class.getClassLoader().getResource("tank2.png"),
+//                            "Could not find tank2.png")
+//            );
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace();
@@ -105,6 +113,11 @@ public class GameWorld extends JPanel implements Runnable {
         t1 = new Tank(300, 300, 0, 0, (short) 0, t1img);
         TankControl tc1 = new TankControl(t1, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_SPACE);
         this.lf.getJf().addKeyListener(tc1);
+
+//        //ADD SECOND TANK
+//        t2 = new Tank(300, 300, 0, 0, (short) 0, t2img);
+//        TankControl tc2 = new TankControl(t1, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_SHIFT);
+//        this.lf.getJf().addKeyListener(tc2);
     }
 
 

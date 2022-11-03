@@ -1,13 +1,11 @@
-package tankrotationexample.menus;
+package TankGame.menus;
 
-import tankrotationexample.Launcher;
-import tankrotationexample.Resources;
+import TankGame.Launcher;
+import TankGame.Resources;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class EndGamePanel extends JPanel {
 
@@ -18,7 +16,7 @@ public class EndGamePanel extends JPanel {
 
     public EndGamePanel(Launcher lf) {
         this.lf = lf;
-            menuBackground = Resources.getSprite("menu");
+        menuBackground = Resources.getSprite("menu");
 
         this.setBackground(Color.BLACK);
         this.setLayout(null);

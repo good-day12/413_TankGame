@@ -1,9 +1,9 @@
-package tankrotationexample;
+package TankGame;
 
 
-import tankrotationexample.game.GameWorld;
-import tankrotationexample.menus.EndGamePanel;
-import tankrotationexample.menus.StartMenuPanel;
+import TankGame.game.GameWorld;
+import TankGame.menus.EndGamePanel;
+import TankGame.menus.StartMenuPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -54,11 +54,14 @@ public class Launcher {
     }
 
     private void initUIComponents(){
+
+        Resources.loadResources(); //load all of our resources
+
         this.mainPanel = new JPanel(); // create a new main panel
         this.startPanel = new StartMenuPanel(this); // create a new start panel
         this.gamePanel = new GameWorld(this); // create a new game panel
 
-        Resources.loadResources(); //load all of our resources
+
 
         this.gamePanel.InitializeGame(); // initialize game, but DO NOT start game
         this.endPanel = new EndGamePanel(this); // create a new end game pane;

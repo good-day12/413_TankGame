@@ -1,6 +1,6 @@
-package tankrotationexample;
+package TankGame;
 
-import tankrotationexample.game.GameWorld;
+import TankGame.game.GameWorld;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.Clip;
@@ -17,6 +17,10 @@ public class Resources {
     private static final Map<String, Clip> sounds = new HashMap<>();
     private static final Map<String, List<BufferedImage>> animations = new HashMap<>();
 
+//    private static BufferedImage loadSprite (String path) throws IOException{
+//        return read(Objects.requireNonNull(GameWorld.class.getClassLoader().getResource(path)));
+//    }
+
     private static void initSprites(){
         try {
             Resources.sprites.put("tank1", ImageIO.read(
@@ -31,7 +35,14 @@ public class Resources {
                     Objects.requireNonNull(GameWorld.class.getClassLoader().getResource("Bullet/Shell.gif"),
                             "Could not find Shell.gif")));
 
-            Resources.sprites.put("menu", ImageIO.read(Resources.class.getClassLoader().getResource("Menu/title.png")));
+            Resources.sprites.put("menu", ImageIO.read(Objects.requireNonNull(Resources.class.getClassLoader().getResource("Menu/title.png"),
+                    "Could not find menu")));
+
+            Resources.sprites.put("unbreak", ImageIO.read(Objects.requireNonNull(Resources.class.getClassLoader().getResource("Wall/Wall1.gif"),
+                    "Could not find menu")));
+
+            Resources.sprites.put("break1", ImageIO.read(Objects.requireNonNull(Resources.class.getClassLoader().getResource("Wall/Wall2.gif"),
+                    "Could not find menu")));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -50,6 +61,10 @@ public class Resources {
 
     public static BufferedImage getSprite (String key){
         //can check for null
+        if(!Resources.sprites.containsKey(key)) {
+            System.out.println(key + " resource not found");
+            System.exit(-2);
+        }
         return Resources.sprites.get(key);
     }
 

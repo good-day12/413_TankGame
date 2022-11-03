@@ -1,4 +1,4 @@
-package tankrotationexample;
+package TankGame;
 
 public class GameConstants {
     public static final int GAME_SCREEN_WIDTH = 1280; //a multiple of 30, 30 is wall size
@@ -10,6 +10,6 @@ public class GameConstants {
     public static final int END_MENU_SCREEN_WIDTH = 500;
     public static final int END_MENU_SCREEN_HEIGHT = 500;
 
-    public static final int WORLD_WIDTH = 0;
-    public static final int WORLD_HEIGHT = 0;
+    public static final int WORLD_WIDTH = 1920;
+    public static final int WORLD_HEIGHT = 1440;
 }

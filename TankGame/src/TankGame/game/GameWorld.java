@@ -3,20 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tankrotationexample.game;
+package TankGame.game;
 
 
-import tankrotationexample.GameConstants;
-import tankrotationexample.Launcher;
-import tankrotationexample.Resources;
+import TankGame.GameConstants;
+import TankGame.Launcher;
+import TankGame.Resources;
+import TankGame.game.stationary.Wall;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.Objects;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -30,6 +33,11 @@ public class GameWorld extends JPanel implements Runnable {
     private Tank t2;
     private Launcher lf;
     private long tick = 0;
+
+    //DO NOT DO THIS JUST FOR TESTING
+    private List<Wall> walls = new ArrayList<Wall>();
+
+    //List<gameObjects> go
 
     /**
      * 
@@ -91,6 +99,34 @@ public class GameWorld extends JPanel implements Runnable {
                 GameConstants.GAME_SCREEN_HEIGHT,
                 BufferedImage.TYPE_INT_RGB);
 
+        try(BufferedReader mapReader = new BufferedReader(new InputStreamReader(GameWorld.class.getClassLoader().getResourceAsStream("Maps/Book1.csv")))){
+            for(int i = 0; mapReader.ready(); i++){
+                String[] gameObjects = mapReader.readLine().split(",");
+                for(int j = 0; j < gameObjects.length; j++){
+                    String objectType = gameObjects[j];
+                    //this.go.add(GameObject.gameObjectFactory(objectType, i *30, j*30));
+                    switch(objectType){
+                        case "0" -> {}
+
+                        case "2" -> {
+                            //breakable wall
+                            walls.add(new Wall(i*30, j*30, Resources.getSprite("break1")));
+
+                        }
+
+                        case "3", "9" -> {
+                            //load unbreakable wall
+                            walls.add(new Wall(i*30, j*30, Resources.getSprite("unbreak")));
+                        }
+                        //rest of the numbers will be powerups, and etc
+                    }
+                }
+
+            }
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+
         t1 = new Tank(300, 300, 0, 0, (short) 0, Resources.getSprite("tank1"));
         TankControl tc1 = new TankControl(t1, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_SPACE);
         this.lf.getJf().addKeyListener(tc1);
@@ -108,7 +144,12 @@ public class GameWorld extends JPanel implements Runnable {
         Graphics2D buffer = world.createGraphics();
         buffer.setColor(Color.black);
         buffer.fillRect(0,0, GameConstants.GAME_SCREEN_WIDTH, GameConstants.GAME_SCREEN_HEIGHT);
+
+        //cant alter walls so forEach won't work for breakable
+        this.walls.forEach(wall -> wall.drawImage(buffer));
+
         this.t1.drawImage(buffer);
+
 
 
 

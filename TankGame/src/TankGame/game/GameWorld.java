@@ -9,7 +9,9 @@ package TankGame.game;
 import TankGame.GameConstants;
 import TankGame.Launcher;
 import TankGame.Resources;
+import TankGame.game.mobile.TankControl;
 import TankGame.game.stationary.Wall;
+import TankGame.game.mobile.Tank;
 
 import javax.swing.*;
 import java.awt.*;

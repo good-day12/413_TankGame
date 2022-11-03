@@ -1,6 +1,8 @@
-package TankGame.game;
+package TankGame.game.mobile;
 
 import TankGame.GameConstants;
+import TankGame.game.GameObject;
+
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
@@ -9,7 +11,7 @@ import java.awt.image.BufferedImage;
  *
  * @author anthony-pc
  */
-public class Tank{
+public class Tank extends GameObject {
 
     private float x;
     private float y;
@@ -26,7 +28,7 @@ public class Tank{
     private boolean RightPressed;
     private boolean LeftPressed;
 
-    Tank(float x, float y, float vx, float vy, float angle, BufferedImage img) {
+    public Tank(float x, float y, float vx, float vy, float angle, BufferedImage img) {
         this.x = x;
         this.y = y;
         this.vx = vx;
@@ -35,9 +37,9 @@ public class Tank{
         this.angle = angle;
     }
 
-    void setX(float x){ this.x = x; }
+    public void setX(float x){ this.x = x; }
 
-    void setY(float y) { this. y = y;}
+    public void setY(float y) { this. y = y;}
 
     void toggleUpPressed() {
         this.UpPressed = true;
@@ -71,7 +73,7 @@ public class Tank{
         this.LeftPressed = false;
     }
 
-    void update() {
+    public void update() {
         if (this.UpPressed) {
             this.moveForwards();
         }
@@ -137,7 +139,7 @@ public class Tank{
     }
 
 
-    void drawImage(Graphics g) {
+    public void drawImage(Graphics g) {
         AffineTransform rotation = AffineTransform.getTranslateInstance(x, y);
         rotation.rotate(Math.toRadians(angle), this.img.getWidth() / 2.0, this.img.getHeight() / 2.0);
         //rotation.scale(3.9, 3.9)

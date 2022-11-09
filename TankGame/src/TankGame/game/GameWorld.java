@@ -16,6 +16,8 @@ import TankGame.game.mobile.Tank;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -97,8 +99,8 @@ public class GameWorld extends JPanel implements Runnable {
      * initial state as well. will be ugly and big
      */
     public void InitializeGame() {
-        this.world = new BufferedImage(GameConstants.GAME_SCREEN_WIDTH,
-                GameConstants.GAME_SCREEN_HEIGHT,
+        this.world = new BufferedImage(GameConstants.WORLD_WIDTH,
+                GameConstants.WORLD_HEIGHT,
                 BufferedImage.TYPE_INT_RGB);
 
         try(BufferedReader mapReader = new BufferedReader(new InputStreamReader(GameWorld.class.getClassLoader().getResourceAsStream("Maps/Book1.csv")))){
@@ -107,6 +109,8 @@ public class GameWorld extends JPanel implements Runnable {
                 for(int j = 0; j < gameObjects.length; j++){
                     String objectType = gameObjects[j];
                     //this.go.add(GameObject.gameObjectFactory(objectType, i *30, j*30));
+                    //if("0".equals(objectType)) continue;
+                    //or if(Objects.equals("0", objectType)) continue;
                     switch(objectType){
                         case "0" -> {}
 
@@ -144,22 +148,55 @@ public class GameWorld extends JPanel implements Runnable {
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         Graphics2D buffer = world.createGraphics();
-        buffer.setColor(Color.black);
-        buffer.fillRect(0,0, GameConstants.GAME_SCREEN_WIDTH, GameConstants.GAME_SCREEN_HEIGHT);
+        drawFloor(buffer);
+//        buffer.setColor(Color.black);
+//        buffer.fillRect(0,0, GameConstants.GAME_SCREEN_WIDTH, GameConstants.GAME_SCREEN_HEIGHT);
 
         //cant alter walls so forEach won't work for breakable
         this.walls.forEach(wall -> wall.drawImage(buffer));
 
         this.t1.drawImage(buffer);
 
+        //g2.drawImage(world, 0, 0, null);
 
-
-
-
-
-
-
-        g2.drawImage(world, 0, 0, null);
+        drawSplitScreen(g2, world);
+        drawMiniMap(g2, world);
     }
 
+    void drawFloor(Graphics buffer){
+        //320 is the width of our image
+        for (int i = 0; i < GameConstants.WORLD_WIDTH; i += 320){
+            for (int j = 0; j < GameConstants.WORLD_HEIGHT; j+= 240){
+                buffer.drawImage(Resources.getSprite("floor"), i, j, null);
+            }
+        }
+    }
+
+    //can make it's own object
+    void drawMiniMap(Graphics2D g, BufferedImage world){
+        BufferedImage mm = world.getSubimage(0,0, GameConstants.WORLD_WIDTH, GameConstants.WORLD_HEIGHT);
+//        BufferedImage mm = world.getSubimage(0,0, GameConstants.GAME_SCREEN_WIDTH, GameConstants.GAME_SCREEN_HEIGHT);
+
+//        g.scale(.2,.2);
+        AffineTransform at = new AffineTransform();
+        at.translate(GameConstants.GAME_SCREEN_WIDTH/2f - (GameConstants.WORLD_WIDTH * .2f)/2f,
+                GameConstants.GAME_SCREEN_HEIGHT - (GameConstants.WORLD_HEIGHT * .2f));
+        at.scale(.2, .2);
+        g.drawImage(mm, at, null);
+    }
+//can be be made into a camera object, keeps tank in middle, keeps track of where tank is
+    void drawSplitScreen(Graphics2D g, BufferedImage world){
+        BufferedImage lh = world.getSubimage((int) t1.getScreenX(), //lh = left half
+                (int) t1.getScreenY(),
+                GameConstants.GAME_SCREEN_WIDTH/2,
+                GameConstants.GAME_SCREEN_HEIGHT);
+
+        BufferedImage rh = world.getSubimage((int) t2.getScreenX(), //rh = right half
+                (int) t2.getScreenY(),
+                GameConstants.GAME_SCREEN_WIDTH/2,
+                GameConstants.GAME_SCREEN_HEIGHT);
+
+        g.drawImage(lh, 0,0, null);
+        g.drawImage(rh, GameConstants.GAME_SCREEN_WIDTH/2, 0, null);
+    }
 }

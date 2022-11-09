@@ -24,7 +24,7 @@ public abstract class GameObject {
             }
 
             default -> {
-                return null;
+                throw new IllegalStateException("Unexpected value " + type);
                 //rest of the numbers will be powerups, and etc
             }
         }

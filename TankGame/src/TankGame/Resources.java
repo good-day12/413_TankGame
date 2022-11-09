@@ -39,11 +39,13 @@ public class Resources {
                     "Could not find menu")));
 
             Resources.sprites.put("unbreak", ImageIO.read(Objects.requireNonNull(Resources.class.getClassLoader().getResource("Wall/Wall1.gif"),
-                    "Could not find menu")));
+                    "Could not find unbreakable wall")));
 
             Resources.sprites.put("break1", ImageIO.read(Objects.requireNonNull(Resources.class.getClassLoader().getResource("Wall/Wall2.gif"),
-                    "Could not find menu")));
+                    "Could not find breakable wall")));
 
+            Resources.sprites.put("floor", ImageIO.read(Objects.requireNonNull(Resources.class.getClassLoader().getResource("Background.bmp"),
+                    "Could not find floor")));
         } catch (IOException e) {
             e.printStackTrace();
         }

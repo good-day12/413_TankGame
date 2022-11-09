@@ -13,8 +13,8 @@ import java.awt.image.BufferedImage;
  */
 public class Tank extends GameObject {
 
-    private float x;
-    private float y;
+    private float x, screenX;
+    private float y, screenY;
     private float vx;
     private float vy;
     private float angle;
@@ -40,6 +40,14 @@ public class Tank extends GameObject {
     public void setX(float x){ this.x = x; }
 
     public void setY(float y) { this. y = y;}
+
+    public float getX() {
+        return x;
+    }
+
+    public float getY() {
+        return y;
+    }
 
     void toggleUpPressed() {
         this.UpPressed = true;
@@ -107,6 +115,7 @@ public class Tank extends GameObject {
         x -= vx;
         y -= vy;
        checkBorder();
+       centerScreen();
     }
 
     private void moveForwards() {
@@ -115,6 +124,7 @@ public class Tank extends GameObject {
         x += vx;
         y += vy;
         checkBorder();
+        centerScreen();
     }
 
 
@@ -148,6 +158,31 @@ public class Tank extends GameObject {
         g2d.setColor(Color.RED);
         //g2d.rotate(Math.toRadians(angle), bounds.x + bounds.width/2, bounds.y + bounds.height/2);
         g2d.drawRect((int)x,(int)y,this.img.getWidth(), this.img.getHeight());
+    }
 
+    //THIS NEEDS TO BE IN CAMERA CLASS
+    private void centerScreen(){
+        this.screenX = this.x - GameConstants.GAME_SCREEN_WIDTH / 4f;
+        this.screenY = this.y - GameConstants.GAME_SCREEN_HEIGHT / 2f;
+
+        if (this.screenX < 0) screenX = 0;
+        if (this.screenY < 0) screenY = 0;
+
+        if (this.screenX > GameConstants.WORLD_WIDTH - GameConstants.GAME_SCREEN_WIDTH / 2f){
+            this.screenX = GameConstants.WORLD_WIDTH - GameConstants.GAME_SCREEN_WIDTH / 2f;
+        }
+
+        if (this.screenY > GameConstants.WORLD_HEIGHT - GameConstants.GAME_SCREEN_HEIGHT){
+            this.screenY = GameConstants.WORLD_HEIGHT - GameConstants.GAME_SCREEN_HEIGHT;
+        }
+
+    }
+
+    public int getScreenX() {
+        return (int) screenX;
+    }
+
+    public int getScreenY(){
+        return (int) screenY;
     }
 }

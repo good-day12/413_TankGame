@@ -1,6 +1,6 @@
-package TankGame.game.mobile;
+package TankGame.game.GameObjects.mobile;
 
-import TankGame.game.GameObject;
+import TankGame.game.GameObjects.GameObject;
 
 import java.awt.*;
 

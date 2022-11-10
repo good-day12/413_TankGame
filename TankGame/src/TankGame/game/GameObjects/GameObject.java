@@ -1,7 +1,7 @@
-package TankGame.game;
+package TankGame.game.GameObjects;
 
 import TankGame.Resources;
-import TankGame.game.stationary.Wall;
+import TankGame.game.GameObjects.stationary.Wall;
 
 import java.awt.*;
 

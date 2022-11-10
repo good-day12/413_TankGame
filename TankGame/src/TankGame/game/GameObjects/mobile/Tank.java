@@ -1,7 +1,8 @@
-package TankGame.game.mobile;
+package TankGame.game.GameObjects.mobile;
 
 import TankGame.GameConstants;
-import TankGame.game.GameObject;
+import TankGame.game.Camera;
+import TankGame.game.GameObjects.GameObject;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -13,6 +14,9 @@ import java.awt.image.BufferedImage;
  */
 public class Tank extends GameObject {
 
+    /*
+    * Should I include a camera object here? I need to be able to call center screen with
+    * this class...*/
     private float x, screenX;
     private float y, screenY;
     private float vx;
@@ -28,13 +32,16 @@ public class Tank extends GameObject {
     private boolean RightPressed;
     private boolean LeftPressed;
 
-    public Tank(float x, float y, float vx, float vy, float angle, BufferedImage img) {
+    private Camera cam;
+
+    public Tank(float x, float y, float vx, float vy, float angle, BufferedImage img, Camera cam) {
         this.x = x;
         this.y = y;
         this.vx = vx;
         this.vy = vy;
         this.img = img;
         this.angle = angle;
+        this.cam = cam;
     }
 
     public void setX(float x){ this.x = x; }
@@ -115,7 +122,8 @@ public class Tank extends GameObject {
         x -= vx;
         y -= vy;
        checkBorder();
-       centerScreen();
+       cam.centerScreen();
+//       centerScreen();
     }
 
     private void moveForwards() {
@@ -124,7 +132,8 @@ public class Tank extends GameObject {
         x += vx;
         y += vy;
         checkBorder();
-        centerScreen();
+        cam.centerScreen();
+//        centerScreen();
     }
 
 
@@ -132,14 +141,14 @@ public class Tank extends GameObject {
         if (x < 30) {
             x = 30;
         }
-        if (x >= GameConstants.GAME_SCREEN_WIDTH - 88) {
-            x = GameConstants.GAME_SCREEN_WIDTH - 88;
+        if (x >= GameConstants.WORLD_WIDTH - 88) {
+            x = GameConstants.WORLD_WIDTH - 88;
         }
         if (y < 40) {
             y = 40;
         }
-        if (y >= GameConstants.GAME_SCREEN_HEIGHT - 80) {
-            y = GameConstants.GAME_SCREEN_HEIGHT - 80;
+        if (y >= GameConstants.WORLD_HEIGHT - 80) {
+            y = GameConstants.WORLD_HEIGHT - 80;
         }
     }
 

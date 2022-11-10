@@ -9,15 +9,14 @@ package TankGame.game;
 import TankGame.GameConstants;
 import TankGame.Launcher;
 import TankGame.Resources;
-import TankGame.game.mobile.TankControl;
-import TankGame.game.stationary.Wall;
-import TankGame.game.mobile.Tank;
+import TankGame.game.GameObjects.mobile.TankControl;
+import TankGame.game.GameObjects.stationary.Wall;
+import TankGame.game.GameObjects.mobile.Tank;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -35,6 +34,7 @@ public class GameWorld extends JPanel implements Runnable {
 
     private Tank t1;
     private Tank t2;
+    private Camera cam;
     private Launcher lf;
     private long tick = 0;
 
@@ -58,8 +58,9 @@ public class GameWorld extends JPanel implements Runnable {
             while (true) {
                 this.tick++;
                 this.t1.update(); // update tank
-//                this.t2.update(); // update tank
+                this.t2.update(); // update tank
 
+                //include centerscreen for camera
                 //check for collisions
                 this.repaint();   // redraw game
                 
@@ -133,14 +134,19 @@ public class GameWorld extends JPanel implements Runnable {
             e.printStackTrace();
         }
 
-        t1 = new Tank(300, 300, 0, 0, (short) 0, Resources.getSprite("tank1"));
+        //ADD FIRST TANK
+        t1 = new Tank(300, 300, 0, 0, (short) 0, Resources.getSprite("tank1"), cam);
         TankControl tc1 = new TankControl(t1, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_SPACE);
         this.lf.getJf().addKeyListener(tc1);
 
-//        //ADD SECOND TANK
-//        t2 = new Tank(300, 300, 0, 0, (short) 0, t2img);
-//        TankControl tc2 = new TankControl(t1, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_SHIFT);
-//        this.lf.getJf().addKeyListener(tc2);
+        //ADD SECOND TANK
+        t2 = new Tank(300, 300, 0, 0, (short) 0, Resources.getSprite("tank2"), cam);
+        TankControl tc2 = new TankControl(t1, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_SHIFT);
+        this.lf.getJf().addKeyListener(tc2);
+
+        //add camera object
+        cam = new Camera(t1, t2);
+
     }
 
 
@@ -156,7 +162,7 @@ public class GameWorld extends JPanel implements Runnable {
         this.walls.forEach(wall -> wall.drawImage(buffer));
 
         this.t1.drawImage(buffer);
-
+        this.t2.drawImage(buffer);
         //g2.drawImage(world, 0, 0, null);
 
         drawSplitScreen(g2, world);
@@ -184,6 +190,7 @@ public class GameWorld extends JPanel implements Runnable {
         at.scale(.2, .2);
         g.drawImage(mm, at, null);
     }
+
 //can be be made into a camera object, keeps tank in middle, keeps track of where tank is
     void drawSplitScreen(Graphics2D g, BufferedImage world){
         BufferedImage lh = world.getSubimage((int) t1.getScreenX(), //lh = left half
@@ -191,12 +198,12 @@ public class GameWorld extends JPanel implements Runnable {
                 GameConstants.GAME_SCREEN_WIDTH/2,
                 GameConstants.GAME_SCREEN_HEIGHT);
 
-        BufferedImage rh = world.getSubimage((int) t2.getScreenX(), //rh = right half
-                (int) t2.getScreenY(),
-                GameConstants.GAME_SCREEN_WIDTH/2,
-                GameConstants.GAME_SCREEN_HEIGHT);
+//        BufferedImage rh = world.getSubimage((int) t2.getScreenX(), //rh = right half
+//                (int) t2.getScreenY(),
+//                GameConstants.GAME_SCREEN_WIDTH/2,
+//                GameConstants.GAME_SCREEN_HEIGHT);
 
         g.drawImage(lh, 0,0, null);
-        g.drawImage(rh, GameConstants.GAME_SCREEN_WIDTH/2, 0, null);
+//        g.drawImage(rh, GameConstants.GAME_SCREEN_WIDTH/2, 0, null);
     }
 }

@@ -1,6 +1,6 @@
-package TankGame.game.stationary;
+package TankGame.game.GameObjects.stationary;
 
-import TankGame.game.GameObject;
+import TankGame.game.GameObjects.GameObject;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

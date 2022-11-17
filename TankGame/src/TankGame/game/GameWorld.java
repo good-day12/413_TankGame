@@ -134,18 +134,24 @@ public class GameWorld extends JPanel implements Runnable {
             e.printStackTrace();
         }
 
+
+
         //ADD FIRST TANK
-        t1 = new Tank(300, 300, 0, 0, (short) 0, Resources.getSprite("tank1"), cam);
+        t1 = new Tank(300, 300, 0, 0, (short) 0, Resources.getSprite("tank1"));
         TankControl tc1 = new TankControl(t1, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_SPACE);
         this.lf.getJf().addKeyListener(tc1);
 
         //ADD SECOND TANK
-        t2 = new Tank(300, 300, 0, 0, (short) 0, Resources.getSprite("tank2"), cam);
-        TankControl tc2 = new TankControl(t1, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_SHIFT);
+        t2 = new Tank(300, 300, 0, 0, (short) 0, Resources.getSprite("tank2"));
+        TankControl tc2 = new TankControl(t2, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_SHIFT);
         this.lf.getJf().addKeyListener(tc2);
 
         //add camera object
         cam = new Camera(t1, t2);
+
+        //attach camera object to tanks
+        t1.setCam(cam);
+        t2.setCam(cam);
 
     }
 
@@ -165,7 +171,8 @@ public class GameWorld extends JPanel implements Runnable {
         this.t2.drawImage(buffer);
         //g2.drawImage(world, 0, 0, null);
 
-        drawSplitScreen(g2, world);
+//        drawSplitScreen(g2, world);
+        this.cam.drawSplitScreen(g2, world);
         drawMiniMap(g2, world);
     }
 
@@ -191,19 +198,19 @@ public class GameWorld extends JPanel implements Runnable {
         g.drawImage(mm, at, null);
     }
 
-//can be be made into a camera object, keeps tank in middle, keeps track of where tank is
+//can be made into a camera object, keeps tank in middle, keeps track of where tank is
     void drawSplitScreen(Graphics2D g, BufferedImage world){
         BufferedImage lh = world.getSubimage((int) t1.getScreenX(), //lh = left half
                 (int) t1.getScreenY(),
                 GameConstants.GAME_SCREEN_WIDTH/2,
                 GameConstants.GAME_SCREEN_HEIGHT);
 
-//        BufferedImage rh = world.getSubimage((int) t2.getScreenX(), //rh = right half
-//                (int) t2.getScreenY(),
-//                GameConstants.GAME_SCREEN_WIDTH/2,
-//                GameConstants.GAME_SCREEN_HEIGHT);
+        BufferedImage rh = world.getSubimage((int) t2.getScreenX(), //rh = right half
+                (int) t2.getScreenY(),
+                GameConstants.GAME_SCREEN_WIDTH/2,
+                GameConstants.GAME_SCREEN_HEIGHT);
 
         g.drawImage(lh, 0,0, null);
-//        g.drawImage(rh, GameConstants.GAME_SCREEN_WIDTH/2, 0, null);
+        g.drawImage(rh, GameConstants.GAME_SCREEN_WIDTH/2, 0, null);
     }
 }

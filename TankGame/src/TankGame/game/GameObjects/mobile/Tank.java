@@ -34,14 +34,13 @@ public class Tank extends GameObject {
 
     private Camera cam;
 
-    public Tank(float x, float y, float vx, float vy, float angle, BufferedImage img, Camera cam) {
+    public Tank(float x, float y, float vx, float vy, float angle, BufferedImage img) {
         this.x = x;
         this.y = y;
         this.vx = vx;
         this.vy = vy;
         this.img = img;
         this.angle = angle;
-        this.cam = cam;
     }
 
     public void setX(float x){ this.x = x; }
@@ -54,6 +53,10 @@ public class Tank extends GameObject {
 
     public float getY() {
         return y;
+    }
+
+    public void setCam(Camera cam) {
+        this.cam = cam;
     }
 
     void toggleUpPressed() {

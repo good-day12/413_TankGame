@@ -7,7 +7,8 @@ import TankGame.game.GameObjects.GameObject;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-
+import java.util.ArrayList;
+import java.util.List;
 /**
  *
  * @author anthony-pc
@@ -22,7 +23,6 @@ public class Tank extends GameObject {
     private float vx;
     private float vy;
     private float angle;
-
     private float R = 5; //r-value is the hypotenuse
     private float ROTATIONSPEED = 3.0f;
 
@@ -32,7 +32,11 @@ public class Tank extends GameObject {
     private boolean RightPressed;
     private boolean LeftPressed;
 
+    private boolean shootPressed;
+
     private Camera cam;
+
+    private List<Bullet> ammo = new ArrayList<>();
 
     public Tank(float x, float y, float vx, float vy, float angle, BufferedImage img) {
         this.x = x;
@@ -75,6 +79,8 @@ public class Tank extends GameObject {
         this.LeftPressed = true;
     }
 
+    void toggleShootPressed(){ this.shootPressed = true; }
+
     void unToggleUpPressed() {
         this.UpPressed = false;
     }
@@ -90,6 +96,8 @@ public class Tank extends GameObject {
     void unToggleLeftPressed() {
         this.LeftPressed = false;
     }
+
+    void unToggleShootPressed() { this.shootPressed = false; }
 
     public void update() {
         if (this.UpPressed) {
@@ -107,8 +115,12 @@ public class Tank extends GameObject {
         if (this.RightPressed) {
             this.rotateRight();
         }
+        if (this.shootPressed){
+            Bullet b = new Bullet (setBulletStartX(), setBulletStartY(), angle);
+            this.ammo.add(b);
+        }
 
-
+        if (b!= null) b.update();
     }
 
     private void rotateLeft() {
@@ -170,6 +182,10 @@ public class Tank extends GameObject {
         g2d.setColor(Color.RED);
         //g2d.rotate(Math.toRadians(angle), bounds.x + bounds.width/2, bounds.y + bounds.height/2);
         g2d.drawRect((int)x,(int)y,this.img.getWidth(), this.img.getHeight());
+
+        if (b!= null){
+            b.drawImage(g);
+        }
     }
 
     //THIS NEEDS TO BE IN CAMERA CLASS
@@ -196,5 +212,14 @@ public class Tank extends GameObject {
 
     public int getScreenY(){
         return (int) screenY;
+    }
+
+    private int setBulletStartX(){
+        float cx = 29f * (float) Math.cos(Math.toRadians(angle));
+        return (int) x + this.img.getWidth() / 2 + (int) cx - 4;
+    }
+    private int setBulletStartY(){
+        float cy = 29f * (float) Math.sin(Math.toRadians(angle));
+        return (int) y + this.img.getHeight() / 2 + (int) cy - 4;
     }
 }

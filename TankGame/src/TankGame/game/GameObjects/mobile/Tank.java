@@ -34,9 +34,12 @@ public class Tank extends GameObject {
 
     private boolean shootPressed;
 
+    private long coolDown = 2000; //2000 milliseconds, 2 seconds, cooldown for shooting POWERUP possibility
+    private long timeLastShot = 0;
+
     private Camera cam;
 
-    private List<Bullet> ammo = new ArrayList<>();
+    private List<Bullet> ammo = new ArrayList<>(500); //start with large array so we don't need to resize
 
     public Tank(float x, float y, float vx, float vy, float angle, BufferedImage img) {
         this.x = x;
@@ -115,12 +118,13 @@ public class Tank extends GameObject {
         if (this.RightPressed) {
             this.rotateRight();
         }
-        if (this.shootPressed){
+        if (this.shootPressed && (this.timeLastShot + coolDown) < System.currentTimeMillis()){
+            this.timeLastShot = System.currentTimeMillis();
             Bullet b = new Bullet (setBulletStartX(), setBulletStartY(), angle);
             this.ammo.add(b);
         }
 
-        if (b!= null) b.update();
+        this.ammo.forEach(b -> b.update());
     }
 
     private void rotateLeft() {
@@ -176,16 +180,11 @@ public class Tank extends GameObject {
     public void drawImage(Graphics g) {
         AffineTransform rotation = AffineTransform.getTranslateInstance(x, y);
         rotation.rotate(Math.toRadians(angle), this.img.getWidth() / 2.0, this.img.getHeight() / 2.0);
-        //rotation.scale(3.9, 3.9)
         Graphics2D g2d = (Graphics2D) g;
         g2d.drawImage(this.img, rotation, null);
         g2d.setColor(Color.RED);
-        //g2d.rotate(Math.toRadians(angle), bounds.x + bounds.width/2, bounds.y + bounds.height/2);
         g2d.drawRect((int)x,(int)y,this.img.getWidth(), this.img.getHeight());
-
-        if (b!= null){
-            b.drawImage(g);
-        }
+        this.ammo.forEach(b -> b.drawImage(g)); //don't use forEach, traditional for loop
     }
 
     //THIS NEEDS TO BE IN CAMERA CLASS

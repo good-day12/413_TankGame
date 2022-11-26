@@ -9,19 +9,14 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 public class Bullet extends GameObject {
-    float x, y;
     float angle;
     float vx = 0;
     float vy = 0;
     float R = 6;
-    BufferedImage img = Resources.getSprite("bullet");
 
     public Bullet(float x, float y, float angle) {
-        super();
-        this.x = x;
-        this.y = y;
+        super(x, y, Resources.getSprite("bullet"));
         this.angle = angle;
-        this.hitbox = new Rectangle((int) x, (int) y, this.img.getWidth(), this.img.getHeight());
     }
 
     void update(){
@@ -35,11 +30,9 @@ public class Bullet extends GameObject {
     public void drawImage(Graphics g) {
         AffineTransform rotation = AffineTransform.getTranslateInstance(x, y);
         rotation.rotate(Math.toRadians(angle), this.img.getWidth() / 2.0, this.img.getHeight() / 2.0);
-        //rotation.scale(3.9, 3.9)
         Graphics2D g2d = (Graphics2D) g;
         g2d.drawImage(this.img, rotation, null);
         g2d.setColor(Color.GREEN);
-        //g2d.rotate(Math.toRadians(angle), bounds.x + bounds.width/2, bounds.y + bounds.height/2);
         g2d.drawRect((int)x,(int)y,this.img.getWidth(), this.img.getHeight());
     }
 

@@ -39,10 +39,7 @@ public class GameWorld extends JPanel implements Runnable {
     private Launcher lf;
     private long tick = 0;
 
-    //DO NOT DO THIS JUST FOR TESTING
-    private List<Wall> walls = new ArrayList<Wall>();
-
-    private List<GameObject> gameObjects = new ArrayList<>();
+    private List<GameObject> gameObjects = new ArrayList<>(500);
 
     /**
      * 
@@ -60,27 +57,28 @@ public class GameWorld extends JPanel implements Runnable {
                 this.tick++;
                 this.t1.update(); // update tank
                 this.t2.update(); // update tank
-                if(t1.getHitbox().intersects(this.t2.getHitbox())){
 
-                }
 
-                //COLLISIONSSSSSSSSSSSSSSS
-                //outer loop, things that initiate collisions,
-                //inner loop, things that get hit
-                for (int i =0; i < this.gameObjects.size(); i++){
-                    GameObject ob1 = this.gameObjects.get(i);
-                    if (ob1 instanceof Wall) continue; //powerups, etc
-                    for (int j = 0; j < this.gameObjects.size(); j++){
-                        if (i == j) continue;
-                        GameObject ob2 = this.gameObjects.get(j);
-                        if(ob1.getHitbox().intersects(ob2.getHitbox())){
-                            //do collision stuff
-                        }
-                    }
-                }
 
-                //include centerscreen for camera
-                //check for collisions
+                GameObject.collisionChecks(gameObjects);
+//                //COLLISIONSSSSSSSSSSSSSSS
+//                //outer loop, things that initiate collisions,
+//                //inner loop, things that get hit
+//                for (int i =0; i < this.gameObjects.size(); i++){
+//                    GameObject ob1 = this.gameObjects.get(i);
+//                    if (ob1 instanceof Wall) continue; //powerups, etc
+//                    for (int j = 0; j < this.gameObjects.size(); j++){
+//                        if (i == j) continue;
+//                        GameObject ob2 = this.gameObjects.get(j);
+//                        if(ob1.getHitbox().intersects(ob2.getHitbox())){
+//                            //do collision stuff
+//                        }
+//                    }
+//                }
+
+
+
+
                 this.repaint();   // redraw game
                 
                 /*
@@ -125,29 +123,11 @@ public class GameWorld extends JPanel implements Runnable {
 
         try(BufferedReader mapReader = new BufferedReader(new InputStreamReader(GameWorld.class.getClassLoader().getResourceAsStream("Maps/Book1.csv")))){
             for(int i = 0; mapReader.ready(); i++){
-                String[] gameObjects = mapReader.readLine().split(",");
-                for(int j = 0; j < gameObjects.length; j++){
-                    String objectType = gameObjects[j];
-                    //this.go.add(GameObject.gameObjectFactory(objectType, i *30, j*30));
-                    //if("0".equals(objectType)) continue;
-                    //or if(Objects.equals("0", objectType)) continue;
-                    switch(objectType){
-                        case "0" -> {}
-
-                        case "2" -> {
-                            //breakable wall
-                            walls.add(new Wall(i*30, j*30, Resources.getSprite("break1")));
-
-                        }
-
-                        case "3", "9" -> {
-                            //load unbreakable wall
-                            walls.add(new Wall(i*30, j*30, Resources.getSprite("unbreak")));
-                        }
-                        //rest of the numbers will be powerups, and etc
-                    }
+                String[] gameObjectNums = mapReader.readLine().split(",");
+                for(int j = 0; j < gameObjectNums.length; j++){
+                    String objectType = gameObjectNums[j];
+                    this.gameObjects.add(GameObject.gameObjectFactory(objectType, i *30, j*30));
                 }
-
             }
         } catch(IOException e){
             e.printStackTrace();
@@ -180,17 +160,17 @@ public class GameWorld extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
         Graphics2D buffer = world.createGraphics();
         drawFloor(buffer);
-//        buffer.setColor(Color.black);
-//        buffer.fillRect(0,0, GameConstants.GAME_SCREEN_WIDTH, GameConstants.GAME_SCREEN_HEIGHT);
 
-        //cant alter walls so forEach won't work for breakable
-        this.walls.forEach(wall -> wall.drawImage(buffer));
+        for (int i = 0; i < gameObjects.size(); i ++){
+            if (gameObjects.get(i) != null){
+                gameObjects.get(i).drawImage(buffer);
+            }
+        }
 
         this.t1.drawImage(buffer);
         this.t2.drawImage(buffer);
         //g2.drawImage(world, 0, 0, null);
 
-//        drawSplitScreen(g2, world);
         this.cam.drawSplitScreen(g2, world);
         drawMiniMap(g2, world);
     }
@@ -207,9 +187,6 @@ public class GameWorld extends JPanel implements Runnable {
     //can make it's own object
     void drawMiniMap(Graphics2D g, BufferedImage world){
         BufferedImage mm = world.getSubimage(0,0, GameConstants.WORLD_WIDTH, GameConstants.WORLD_HEIGHT);
-//        BufferedImage mm = world.getSubimage(0,0, GameConstants.GAME_SCREEN_WIDTH, GameConstants.GAME_SCREEN_HEIGHT);
-
-//        g.scale(.2,.2);
         AffineTransform at = new AffineTransform();
         at.translate(GameConstants.GAME_SCREEN_WIDTH/2f - (GameConstants.WORLD_WIDTH * .2f)/2f,
                 GameConstants.GAME_SCREEN_HEIGHT - (GameConstants.WORLD_HEIGHT * .2f));
@@ -217,19 +194,4 @@ public class GameWorld extends JPanel implements Runnable {
         g.drawImage(mm, at, null);
     }
 
-//can be made into a camera object, keeps tank in middle, keeps track of where tank is
-    void drawSplitScreen(Graphics2D g, BufferedImage world){
-        BufferedImage lh = world.getSubimage((int) t1.getScreenX(), //lh = left half
-                (int) t1.getScreenY(),
-                GameConstants.GAME_SCREEN_WIDTH/2,
-                GameConstants.GAME_SCREEN_HEIGHT);
-
-        BufferedImage rh = world.getSubimage((int) t2.getScreenX(), //rh = right half
-                (int) t2.getScreenY(),
-                GameConstants.GAME_SCREEN_WIDTH/2,
-                GameConstants.GAME_SCREEN_HEIGHT);
-
-        g.drawImage(lh, 0,0, null);
-        g.drawImage(rh, GameConstants.GAME_SCREEN_WIDTH/2, 0, null);
-    }
 }

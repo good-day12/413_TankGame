@@ -19,15 +19,12 @@ public class Tank extends GameObject {
     /*
     * Should I include a camera object here? I need to be able to call center screen with
     * this class...*/
-    private float x, screenX;
-    private float y, screenY;
     private float vx;
     private float vy;
     private float angle;
     private float R = 5; //r-value is the hypotenuse
     private float ROTATIONSPEED = 3.0f;
 
-    private BufferedImage img;
     private boolean UpPressed;
     private boolean DownPressed;
     private boolean RightPressed;
@@ -43,25 +40,10 @@ public class Tank extends GameObject {
     private List<Bullet> ammo = new ArrayList<>(500); //start with large array so we don't need to resize
 
     public Tank(float x, float y, float vx, float vy, float angle, BufferedImage img) {
-        this.x = x;
-        this.y = y;
+        super(x, y, img);
         this.vx = vx;
         this.vy = vy;
-        this.img = img;
         this.angle = angle;
-        this.hitbox = new Rectangle((int) x, (int) y, this.img.getWidth(), this.img.getHeight());
-    }
-
-    public void setX(float x){ this.x = x; }
-
-    public void setY(float y) { this. y = y;}
-
-    public float getX() {
-        return x;
-    }
-
-    public float getY() {
-        return y;
     }
 
     public void setCam(Camera cam) {
@@ -186,14 +168,6 @@ public class Tank extends GameObject {
         g2d.setColor(Color.RED);
         g2d.drawRect((int)x,(int)y,this.img.getWidth(), this.img.getHeight());
         this.ammo.forEach(b -> b.drawImage(g)); //don't use forEach, traditional for loop
-    }
-
-    public int getScreenX() {
-        return (int) screenX;
-    }
-
-    public int getScreenY(){
-        return (int) screenY;
     }
 
     private int setBulletStartX(){

@@ -1,6 +1,7 @@
 package TankGame.game.GameObjects.mobile;
 
 import TankGame.GameConstants;
+import TankGame.Resources;
 import TankGame.game.Camera;
 import TankGame.game.GameObjects.GameObject;
 
@@ -48,6 +49,7 @@ public class Tank extends GameObject {
         this.vy = vy;
         this.img = img;
         this.angle = angle;
+        this.hitbox = new Rectangle((int) x, (int) y, this.img.getWidth(), this.img.getHeight());
     }
 
     public void setX(float x){ this.x = x; }
@@ -125,6 +127,7 @@ public class Tank extends GameObject {
         }
 
         this.ammo.forEach(b -> b.update());
+        this.ammo.removeIf(b -> b.checkBorder());
     }
 
     private void rotateLeft() {
@@ -142,7 +145,7 @@ public class Tank extends GameObject {
         y -= vy;
        checkBorder();
        cam.centerScreen();
-//       centerScreen();
+       this.hitbox.setLocation((int) x, (int) y);
     }
 
     private void moveForwards() {
@@ -152,9 +155,8 @@ public class Tank extends GameObject {
         y += vy;
         checkBorder();
         cam.centerScreen();
-//        centerScreen();
+        this.hitbox.setLocation((int) x, (int) y);
     }
-
 
     private void checkBorder() {
         if (x < 30) {
@@ -176,7 +178,6 @@ public class Tank extends GameObject {
         return "x=" + x + ", y=" + y + ", angle=" + angle;
     }
 
-
     public void drawImage(Graphics g) {
         AffineTransform rotation = AffineTransform.getTranslateInstance(x, y);
         rotation.rotate(Math.toRadians(angle), this.img.getWidth() / 2.0, this.img.getHeight() / 2.0);
@@ -185,24 +186,6 @@ public class Tank extends GameObject {
         g2d.setColor(Color.RED);
         g2d.drawRect((int)x,(int)y,this.img.getWidth(), this.img.getHeight());
         this.ammo.forEach(b -> b.drawImage(g)); //don't use forEach, traditional for loop
-    }
-
-    //THIS NEEDS TO BE IN CAMERA CLASS
-    private void centerScreen(){
-        this.screenX = this.x - GameConstants.GAME_SCREEN_WIDTH / 4f;
-        this.screenY = this.y - GameConstants.GAME_SCREEN_HEIGHT / 2f;
-
-        if (this.screenX < 0) screenX = 0;
-        if (this.screenY < 0) screenY = 0;
-
-        if (this.screenX > GameConstants.WORLD_WIDTH - GameConstants.GAME_SCREEN_WIDTH / 2f){
-            this.screenX = GameConstants.WORLD_WIDTH - GameConstants.GAME_SCREEN_WIDTH / 2f;
-        }
-
-        if (this.screenY > GameConstants.WORLD_HEIGHT - GameConstants.GAME_SCREEN_HEIGHT){
-            this.screenY = GameConstants.WORLD_HEIGHT - GameConstants.GAME_SCREEN_HEIGHT;
-        }
-
     }
 
     public int getScreenX() {

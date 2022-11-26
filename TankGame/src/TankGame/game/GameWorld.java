@@ -9,6 +9,7 @@ package TankGame.game;
 import TankGame.GameConstants;
 import TankGame.Launcher;
 import TankGame.Resources;
+import TankGame.game.GameObjects.GameObject;
 import TankGame.game.GameObjects.mobile.TankControl;
 import TankGame.game.GameObjects.stationary.Wall;
 import TankGame.game.GameObjects.mobile.Tank;
@@ -41,7 +42,7 @@ public class GameWorld extends JPanel implements Runnable {
     //DO NOT DO THIS JUST FOR TESTING
     private List<Wall> walls = new ArrayList<Wall>();
 
-    //List<gameObjects> go
+    private List<GameObject> gameObjects = new ArrayList<>();
 
     /**
      * 
@@ -59,6 +60,24 @@ public class GameWorld extends JPanel implements Runnable {
                 this.tick++;
                 this.t1.update(); // update tank
                 this.t2.update(); // update tank
+                if(t1.getHitbox().intersects(this.t2.getHitbox())){
+
+                }
+
+                //COLLISIONSSSSSSSSSSSSSSS
+                //outer loop, things that initiate collisions,
+                //inner loop, things that get hit
+                for (int i =0; i < this.gameObjects.size(); i++){
+                    GameObject ob1 = this.gameObjects.get(i);
+                    if (ob1 instanceof Wall) continue; //powerups, etc
+                    for (int j = 0; j < this.gameObjects.size(); j++){
+                        if (i == j) continue;
+                        GameObject ob2 = this.gameObjects.get(j);
+                        if(ob1.getHitbox().intersects(ob2.getHitbox())){
+                            //do collision stuff
+                        }
+                    }
+                }
 
                 //include centerscreen for camera
                 //check for collisions

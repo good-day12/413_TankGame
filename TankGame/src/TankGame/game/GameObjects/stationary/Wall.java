@@ -14,6 +14,7 @@ public class Wall extends GameObject {
         this.x = x;
         this.y = y;
         this.img = img;
+        this.hitbox = new Rectangle((int) x, (int) y, this.img.getWidth(), this.img.getHeight());
     }
 
     public void drawImage(Graphics g) {

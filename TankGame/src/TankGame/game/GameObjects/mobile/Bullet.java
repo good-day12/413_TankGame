@@ -1,5 +1,6 @@
 package TankGame.game.GameObjects.mobile;
 
+import TankGame.GameConstants;
 import TankGame.Resources;
 import TankGame.game.GameObjects.GameObject;
 
@@ -20,6 +21,7 @@ public class Bullet extends GameObject {
         this.x = x;
         this.y = y;
         this.angle = angle;
+        this.hitbox = new Rectangle((int) x, (int) y, this.img.getWidth(), this.img.getHeight());
     }
 
     void update(){
@@ -39,5 +41,22 @@ public class Bullet extends GameObject {
         g2d.setColor(Color.GREEN);
         //g2d.rotate(Math.toRadians(angle), bounds.x + bounds.width/2, bounds.y + bounds.height/2);
         g2d.drawRect((int)x,(int)y,this.img.getWidth(), this.img.getHeight());
+    }
+
+    //check to remove bullet if out of bounds of the map
+    public boolean checkBorder() {
+        if (x < 30) {
+            return true;
+        }
+        if (x >= GameConstants.WORLD_WIDTH - 88) {
+            return true;
+        }
+        if (y < 40) {
+            return true;
+        }
+        if (y >= GameConstants.WORLD_HEIGHT - 80) {
+            return true;
+        }
+        return false;
     }
 }

@@ -7,6 +7,15 @@ import java.awt.*;
 
 public abstract class GameObject {
 
+    protected Rectangle hitbox;
+    //game object needs to create hitbox
+    //should have x, y variables as well
+
+    public Rectangle getHitbox(){
+        return this.hitbox.getBounds();
+    }
+
+
     //this is called the static factory method
     public static GameObject gameObjectFactory(String type, float x, float y){
         switch(type){

@@ -61,20 +61,7 @@ public class GameWorld extends JPanel implements Runnable {
 
 
                 GameObject.collisionChecks(gameObjects);
-//                //COLLISIONSSSSSSSSSSSSSSS
-//                //outer loop, things that initiate collisions,
-//                //inner loop, things that get hit
-//                for (int i =0; i < this.gameObjects.size(); i++){
-//                    GameObject ob1 = this.gameObjects.get(i);
-//                    if (ob1 instanceof Wall) continue; //powerups, etc
-//                    for (int j = 0; j < this.gameObjects.size(); j++){
-//                        if (i == j) continue;
-//                        GameObject ob2 = this.gameObjects.get(j);
-//                        if(ob1.getHitbox().intersects(ob2.getHitbox())){
-//                            //do collision stuff
-//                        }
-//                    }
-//                }
+
 
 
 

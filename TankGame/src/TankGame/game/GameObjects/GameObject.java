@@ -76,6 +76,10 @@ public abstract class GameObject {
                 GameObject ob2 = gameObjects.get(j);
                 if(ob1.getHitbox().intersects(ob2.getHitbox())){
                     //do collision stuff
+                    //if bullet colliding with tank, take life away
+                    //if tank colliding with wall, reset position
+                    //if tank colliding with powerUp, give power
+                    //if tank collding with breakable wall, start breaking wall
                 }
             }
         }

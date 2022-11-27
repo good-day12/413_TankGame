@@ -3,7 +3,7 @@ package TankGame;
 import TankGame.game.GameWorld;
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.Clip;
+import javax.sound.sampled.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashMap;
@@ -14,7 +14,7 @@ import java.util.Objects;
 public class Resources {
 
     private static final Map<String, BufferedImage> sprites = new HashMap<>();
-    private static final Map<String, Clip> sounds = new HashMap<>();
+    private static final Map<String, Sound> sounds = new HashMap<>();
     private static final Map<String, List<BufferedImage>> animations = new HashMap<>();
 
 //    private static BufferedImage loadSprite (String path) throws IOException{
@@ -51,7 +51,35 @@ public class Resources {
         }
     }
 
-    private static void initSounds(){}
+    private static void initSounds(){
+        AudioInputStream audioStream;
+        Clip c;
+        Sound s;
+
+        try {
+            audioStream = AudioSystem.getAudioInputStream(
+                    Resources.class.getClassLoader().getResource("Music/music.mid"));
+            c = AudioSystem.getClip();
+            c.open((audioStream));
+            s = new Sound(c);
+            Resources.sounds.put("bg", s);
+
+            //a new sound example
+//            audioStream = AudioSystem.getAudioInputStream(
+//                    Resources.class.getClassLoader().getResource("Music/NEWSOUND"));
+//            c = AudioSystem.getClip();
+//            c.open((audioStream));
+//            s = new Sound(c);
+//            Resources.sounds.put("NEWSOUND NAME", s);
+
+        } catch (UnsupportedAudioFileException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (LineUnavailableException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     private static void initAnimations(){}
 
@@ -70,4 +98,12 @@ public class Resources {
         return Resources.sprites.get(key);
     }
 
+    public static Sound getSound (String key){
+        //can check for null
+        if(!Resources.sounds.containsKey(key)) {
+            System.out.println(key + " resource not found");
+            System.exit(-2);
+        }
+        return Resources.sounds.get(key);
+    }
 }

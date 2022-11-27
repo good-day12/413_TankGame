@@ -9,7 +9,9 @@ package TankGame.game;
 import TankGame.GameConstants;
 import TankGame.Launcher;
 import TankGame.Resources;
+import TankGame.Sound;
 import TankGame.game.GameObjects.GameObject;
+import TankGame.game.GameObjects.mobile.Bullet;
 import TankGame.game.GameObjects.mobile.TankControl;
 import TankGame.game.GameObjects.stationary.Wall;
 import TankGame.game.GameObjects.mobile.Tank;
@@ -32,13 +34,12 @@ import java.util.List;
 public class GameWorld extends JPanel implements Runnable {
 
     private BufferedImage world;
-
     private Tank t1;
     private Tank t2;
     private Camera cam;
     private Launcher lf;
     private long tick = 0;
-
+    private Sound bgMusic;
     private List<GameObject> gameObjects = new ArrayList<>(500);
 
     /**
@@ -53,10 +54,14 @@ public class GameWorld extends JPanel implements Runnable {
     public void run() {
         try {
             //this.resetGame();
+//            bgMusic = Resources.getSound("bg");
+//            bgMusic.setVolume(0.5f);
+//            bgMusic.setLooping();
+//            bgMusic.playSound();
             while (true) {
                 this.tick++;
-                this.t1.update(); // update tank
-                this.t2.update(); // update tank
+                this.t1.update(this); // update tank
+                this.t2.update(this); // update tank
 
 
 
@@ -67,7 +72,9 @@ public class GameWorld extends JPanel implements Runnable {
 
 
                 this.repaint();   // redraw game
-                
+
+                this.gameObjects.removeIf(g -> g.hasCollided); //more efficient, won't shift for every delete
+
                 /*
                  * Sleep for 1000/144 ms (~6.9ms). This is done to have our 
                  * loop run at a fixed rate per/sec. 
@@ -181,4 +188,5 @@ public class GameWorld extends JPanel implements Runnable {
         g.drawImage(mm, at, null);
     }
 
+    public void addGameObject(Bullet b) { this.gameObjects.add(b); }
 }

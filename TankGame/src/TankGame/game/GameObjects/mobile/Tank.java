@@ -4,6 +4,7 @@ import TankGame.GameConstants;
 import TankGame.Resources;
 import TankGame.game.Camera;
 import TankGame.game.GameObjects.GameObject;
+import TankGame.game.GameWorld;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -86,7 +87,7 @@ public class Tank extends GameObject {
 
     void unToggleShootPressed() { this.shootPressed = false; }
 
-    public void update() {
+    public void update(GameWorld gw) {
         if (this.UpPressed) {
             this.moveForwards();
         }
@@ -105,7 +106,9 @@ public class Tank extends GameObject {
         if (this.shootPressed && (this.timeLastShot + coolDown) < System.currentTimeMillis()){
             this.timeLastShot = System.currentTimeMillis();
             Bullet b = new Bullet (setBulletStartX(), setBulletStartY(), angle);
+            gw.addGameObject(b);
             this.ammo.add(b);
+//            Resources.getSound("Shoot").playSound();
         }
 
         this.ammo.forEach(b -> b.update());

@@ -12,10 +12,10 @@ public abstract class GameObject {
     protected float x;
     protected float y;
     protected BufferedImage img;
-
     protected Rectangle hitbox;
     //game object needs to create hitbox
     //should have x, y variables as well
+    public boolean hasCollided = false;
 
     public Rectangle getHitbox(){
         return this.hitbox.getBounds();
@@ -70,7 +70,9 @@ public abstract class GameObject {
         //inner loop, things that get hit
         for (int i =0; i < gameObjects.size(); i++){
             GameObject ob1 = gameObjects.get(i);
+            if (ob1 == null) continue;
             if (ob1 instanceof Wall) continue; //powerups, etc
+
             for (int j = 0; j < gameObjects.size(); j++){
                 if (i == j) continue;
                 GameObject ob2 = gameObjects.get(j);
@@ -80,6 +82,20 @@ public abstract class GameObject {
                     //if tank colliding with wall, reset position
                     //if tank colliding with powerUp, give power
                     //if tank collding with breakable wall, start breaking wall
+
+                    //powerup example, should be in powerup class
+//                    if(ob2 instanceof PowerUp && !ob2.hasCollided){
+//                        System.out.println("hit a powerup");
+//                        Resources.getSound("powerup").playSound();
+//                        ob2.hasCollided = true;
+//                    }
+
+                    //shooting example,
+//
+//                    if (ob2 instanceof Bullet && !ob2.hasCollided){
+//                        //what to do when a bullet is hit
+//                    }
+                    System.out.println("COLLIDED");
                 }
             }
         }

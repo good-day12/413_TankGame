@@ -77,7 +77,7 @@ public abstract class GameObject {
                 if (i == j) continue;
                 GameObject ob2 = gameObjects.get(j);
                 if(ob1.getHitbox().intersects(ob2.getHitbox())){
-                    //do collision stuff
+                    //do collision stuff, should be abstracted to lower classes
                     //if bullet colliding with tank, take life away
                     //if tank colliding with wall, reset position
                     //if tank colliding with powerUp, give power

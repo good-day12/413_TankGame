@@ -52,4 +52,9 @@ public class Bullet extends GameObject {
         }
         return false;
     }
+
+    public void collision(Tank t){
+        t.setLives(t.getLives() - 1); //decrement life of tank
+    }
+
 }

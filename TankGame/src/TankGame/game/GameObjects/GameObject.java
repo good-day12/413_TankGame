@@ -1,6 +1,8 @@
 package TankGame.game.GameObjects;
 
 import TankGame.Resources;
+import TankGame.game.GameObjects.mobile.Bullet;
+import TankGame.game.GameObjects.mobile.Tank;
 import TankGame.game.GameObjects.stationary.Wall;
 
 import java.awt.*;
@@ -72,9 +74,9 @@ public abstract class GameObject {
             GameObject ob1 = gameObjects.get(i);
             if (ob1 == null) continue;
             if (ob1 instanceof Wall) continue; //powerups, etc
-
+            //ob1 should only be tanks and bullets
             for (int j = 0; j < gameObjects.size(); j++){
-                if (i == j) continue;
+                if (i == j) continue; //cant hit self
                 GameObject ob2 = gameObjects.get(j);
                 if(ob1.getHitbox().intersects(ob2.getHitbox())){
                     //do collision stuff, should be abstracted to lower classes
@@ -92,9 +94,13 @@ public abstract class GameObject {
 
                     //shooting example,
 //
-//                    if (ob2 instanceof Bullet && !ob2.hasCollided){
-//                        //what to do when a bullet is hit
-//                    }
+                    if (ob2 instanceof Bullet && !ob2.hasCollided){
+                        ((Bullet) ob2).collision((Tank) ob1); //what if a bullet hits a bullet?
+                        //Resources.getSound("bullet").playSound();
+
+                        gameObjects.remove(ob2); //remove bullet after collision
+                        //what to do when a bullet is hit
+                    }
                     System.out.println("COLLIDED");
                 }
             }

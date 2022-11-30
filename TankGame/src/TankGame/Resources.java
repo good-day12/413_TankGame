@@ -6,10 +6,7 @@ import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class Resources {
 
@@ -18,7 +15,11 @@ public class Resources {
     private static final Map<String, List<BufferedImage>> animations = new HashMap<>();
 
 //    private static BufferedImage loadSprite (String path) throws IOException{
-//        return read(Objects.requireNonNull(GameWorld.class.getClassLoader().getResource(path)));
+//        return read(Objects.
+//                requireNonNull(GameWorld
+//                        .class
+//                        .getClassLoader()
+//                        .getResource(path)));
 //    }
 
     private static void initSprites(){
@@ -81,7 +82,33 @@ public class Resources {
         }
     }
 
-    private static void initAnimations(){}
+    private static void initAnimations(){
+//        try{
+//            //% -> marker for string 0-> means to fill with zero if not enough #'s 4-> how many nums d-> int
+//            String base = "expl_08_%04d.png"; //need full path name
+//            List<BufferedImage> temp = new ArrayList<>();
+//            for (int i = 0; i < 32; i++){
+//                String fName = String.format(base, i);
+//                System.out.println(fName);
+////                temp.add(loadSprite(fname));
+//            }
+//            Resources.animations.put("shoot", temp);
+//
+//            base = "expl_08_%04d.png"; //need second path name
+//            temp.clear();
+//            for (int i = 0; i < 32; i++){
+//                String fName = String.format(base, i);
+//                System.out.println(fName);
+////                temp.add(loadSprite(fname));
+//            }
+//            Resources.animations.put("collide", temp);
+//
+//        }catch(IOException e){
+//            e.printStackTrace();
+//            System.exit(-3);
+//        }
+
+    }
 
     public static void loadResources(){
         initSprites();
@@ -105,5 +132,13 @@ public class Resources {
             System.exit(-2);
         }
         return Resources.sounds.get(key);
+    }
+
+    public static List<BufferedImage> getAnimation(String key) {
+        if (!Resources.animations.containsKey(key)){
+            System.out.println(key + " animation resource not found");
+            System.exit(-2);
+        }
+        return animations.get(key);
     }
 }

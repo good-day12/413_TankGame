@@ -6,10 +6,7 @@
 package TankGame.game;
 
 
-import TankGame.GameConstants;
-import TankGame.Launcher;
-import TankGame.Resources;
-import TankGame.Sound;
+import TankGame.*;
 import TankGame.game.GameObjects.GameObject;
 import TankGame.game.GameObjects.mobile.Bullet;
 import TankGame.game.GameObjects.mobile.TankControl;
@@ -41,6 +38,7 @@ public class GameWorld extends JPanel implements Runnable {
     private long tick = 0;
     private Sound bgMusic;
     private List<GameObject> gameObjects = new ArrayList<>(500);
+    private List<Animations> anims = new ArrayList<>(20);
 
     /**
      * 
@@ -66,8 +64,12 @@ public class GameWorld extends JPanel implements Runnable {
 
 
                 GameObject.collisionChecks(gameObjects);
+                gameObjects.removeIf(go -> go.hasCollided); //remove all objects that have collided
 
-
+                this.anims.forEach(a-> a.update());
+                //this.anims.removeIf(a-> !a.isRunning());
+                //
+                //this.anims.add(new Animations(x,y, Resources.getAnimation("shoot")));
 
 
 
@@ -165,6 +167,8 @@ public class GameWorld extends JPanel implements Runnable {
         this.t2.drawImage(buffer);
         //g2.drawImage(world, 0, 0, null);
 
+        this.anims.forEach(a -> a.drawImage(buffer));
+
         this.cam.drawSplitScreen(g2, world);
         drawMiniMap(g2, world);
     }
@@ -189,4 +193,5 @@ public class GameWorld extends JPanel implements Runnable {
     }
 
     public void addGameObject(Bullet b) { this.gameObjects.add(b); }
+    public void removeGameObject(Bullet b) { gameObjects.remove(b); }
 }

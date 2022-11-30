@@ -25,6 +25,7 @@ public class Tank extends GameObject {
     private float angle;
     private float R = 5; //r-value is the hypotenuse
     private float ROTATIONSPEED = 3.0f;
+    private int lives = 3;
 
     private boolean UpPressed;
     private boolean DownPressed;
@@ -50,6 +51,8 @@ public class Tank extends GameObject {
     public void setCam(Camera cam) {
         this.cam = cam;
     }
+    public void setLives(int l){ this.lives = l; }
+    public int getLives(){ return this.lives; }
 
     void toggleUpPressed() {
         this.UpPressed = true;
@@ -113,6 +116,8 @@ public class Tank extends GameObject {
 
         this.ammo.forEach(b -> b.update());
         this.ammo.removeIf(b -> b.checkBorder());
+        //remove it from gameObjects list somehow
+
     }
 
     private void rotateLeft() {
@@ -181,4 +186,6 @@ public class Tank extends GameObject {
         float cy = 29f * (float) Math.sin(Math.toRadians(angle));
         return (int) y + this.img.getHeight() / 2 + (int) cy - 4;
     }
+
+
 }

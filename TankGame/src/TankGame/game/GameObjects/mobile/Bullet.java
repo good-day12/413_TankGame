@@ -52,9 +52,11 @@ public class Bullet extends GameObject {
         }
         return false;
     }
-
-    public void collision(Tank t){
-        t.setLives(t.getLives() - 1); //decrement life of tank
+//what if we pass a gameObject to this function, then throw all the gross if statements in here?
+    public void collision(GameObject go){
+        if (go instanceof Tank t) {
+            t.setLives(t.getLives() - 1); //decrement life of tank
+        }
     }
 
 }

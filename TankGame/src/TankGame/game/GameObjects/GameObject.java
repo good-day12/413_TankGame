@@ -17,7 +17,7 @@ public abstract class GameObject {
     protected Rectangle hitbox;
     //game object needs to create hitbox
     //should have x, y variables as well
-    public boolean hasCollided = false;
+    public boolean hasCollided;
 
     public Rectangle getHitbox(){
         return this.hitbox.getBounds();
@@ -40,6 +40,7 @@ public abstract class GameObject {
         this.y = y;
         this.img = img;
         this.hitbox = new Rectangle((int) x, (int) y, this.img.getWidth(), this.img.getHeight());
+        this.hasCollided = false;
     }
 
     //this is called the static factory method
@@ -107,5 +108,8 @@ public abstract class GameObject {
         }
     }
 
-    public abstract void drawImage(Graphics g);
+    public void drawImage(Graphics g){
+        Graphics2D g2d = (Graphics2D) g;
+        g.drawImage(this.img, (int) x, (int) y, null);
+    };
 }

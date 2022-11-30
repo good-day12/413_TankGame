@@ -26,7 +26,7 @@ public class Tank extends GameObject {
     private float R = 5; //r-value is the hypotenuse
     private float ROTATIONSPEED = 3.0f;
     private int lives = 3;
-
+    private int health = 100;
     private boolean UpPressed;
     private boolean DownPressed;
     private boolean RightPressed;
@@ -176,6 +176,13 @@ public class Tank extends GameObject {
         g2d.setColor(Color.RED);
         g2d.drawRect((int)x,(int)y,this.img.getWidth(), this.img.getHeight());
         this.ammo.forEach(b -> b.drawImage(g)); //don't use forEach, traditional for loop
+
+        //health bar
+        g2d.drawRect((int) x - 20,(int) y - 20, 100, 15);
+        g2d.fillRect((int) x - 20,(int) y - 20, this.health, 15);
+        //can use g2d.setColor(Color.red) //if we want to change the colors
+        //do a loop using lives, i * 15 for x
+        g2d.drawOval((int) x, (int) y + 65, 10, 10);
     }
 
     private int setBulletStartX(){

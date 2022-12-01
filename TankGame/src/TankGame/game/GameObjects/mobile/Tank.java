@@ -55,41 +55,33 @@ public class Tank extends GameObject {
     }
     public void setLives(int l){ this.lives = l; }
     public int getLives(){ return this.lives; }
-
+    public int getHealth() { return health; }
+    public void setHealth(int health) { this.health = health; }
     void toggleUpPressed() {
         this.UpPressed = true;
     }
-
     void toggleDownPressed() {
         this.DownPressed = true;
     }
-
     void toggleRightPressed() {
         this.RightPressed = true;
     }
-
     void toggleLeftPressed() {
         this.LeftPressed = true;
     }
-
     void toggleShootPressed(){ this.shootPressed = true; }
-
     void unToggleUpPressed() {
         this.UpPressed = false;
     }
-
     void unToggleDownPressed() {
         this.DownPressed = false;
     }
-
     void unToggleRightPressed() {
         this.RightPressed = false;
     }
-
     void unToggleLeftPressed() {
         this.LeftPressed = false;
     }
-
     void unToggleShootPressed() { this.shootPressed = false; }
 
     public void update(GameWorld gw) {
@@ -112,14 +104,14 @@ public class Tank extends GameObject {
             this.timeLastShot = System.currentTimeMillis();
             Bullet b = new Bullet (setBulletStartX(), setBulletStartY(), angle);
             gw.addGameObject(b);
-            this.ammo.add(b);
+            //this.ammo.add(b);
 //            Resources.getSound("Shoot").playSound();
 //            this.anims.add(new Animations(setBulletStartX(), setBulletStartY(), Resources.getAnimation("shoot")));
         }
 
-        this.ammo.forEach(b -> b.update());
+        //this.ammo.forEach(b -> b.update());
 //        this.anims.forEach(a -> a.update());
-        this.ammo.removeIf(b -> b.checkBorder());
+        //this.ammo.removeIf(b -> b.checkBorder());
         //remove it from gameObjects list somehow
 
     }
@@ -179,7 +171,8 @@ public class Tank extends GameObject {
         g2d.drawImage(this.img, rotation, null);
         g2d.setColor(Color.RED);
         g2d.drawRect((int)x,(int)y,this.img.getWidth(), this.img.getHeight());
-        this.ammo.forEach(b -> b.drawImage(g)); //don't use forEach, traditional for loop
+
+        //this.ammo.forEach(b -> b.drawImage(g)); //don't use forEach, traditional for loop
 
         //health bar
         g2d.drawRect((int) x - 20,(int) y - 20, 100, 15);
@@ -197,6 +190,7 @@ public class Tank extends GameObject {
         float cy = 29f * (float) Math.sin(Math.toRadians(angle));
         return (int) y + this.img.getHeight() / 2 + (int) cy - 4;
     }
+
 
 
 }

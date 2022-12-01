@@ -84,8 +84,10 @@ public abstract class GameObject {
                     //shooting example,
 //
                     if (ob2 instanceof Bullet && !ob2.hasCollided){
-                        ((Bullet) ob2).collision((Tank) ob1); //what if a bullet hits a bullet?
-                        //Resources.getSound("bullet").playSound();
+                        if (ob1 instanceof Tank) {
+                            ((Bullet) ob2).collision(ob1); //what if a bullet hits a bullet?
+                            //Resources.getSound("bullet").playSound();
+                        }
 
                         gameObjects.remove(ob2); //remove bullet after collision
                         //what to do when a bullet is hit

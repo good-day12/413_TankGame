@@ -58,12 +58,24 @@ public class GameWorld extends JPanel implements Runnable {
 //            bgMusic.playSound();
             while (true) {
                 this.tick++;
+                //update tanks
                 this.t1.update(this); // update tank
                 this.t2.update(this); // update tank
+                //update bullets
+                for(int i = 0; i < gameObjects.size(); i++){
+                    if (gameObjects.get(i) instanceof Bullet){
+                        ((Bullet) gameObjects.get(i)).update();
+                        if (((Bullet) gameObjects.get(i)).checkBorder()) gameObjects.remove(i);
+                    }
+                    else {
+                        continue;
+                    }
+                }
 
-
-
+                //collision checks
                 GameObject.collisionChecks(gameObjects);
+
+                //remove if object has collided
                 gameObjects.removeIf(go -> go.hasCollided); //remove all objects that have collided
 
                 this.anims.forEach(a-> a.update());
@@ -75,7 +87,7 @@ public class GameWorld extends JPanel implements Runnable {
 
                 this.repaint();   // redraw game
 
-                this.gameObjects.removeIf(g -> g.hasCollided); //more efficient, won't shift for every delete
+                //this.gameObjects.removeIf(g -> g.hasCollided); //more efficient, won't shift for every delete
 
                 /*
                  * Sleep for 1000/144 ms (~6.9ms). This is done to have our 
@@ -151,7 +163,6 @@ public class GameWorld extends JPanel implements Runnable {
 
     }
 
-
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
@@ -159,9 +170,7 @@ public class GameWorld extends JPanel implements Runnable {
         drawFloor(buffer);
 
         for (int i = 0; i < gameObjects.size(); i ++){
-            if (gameObjects.get(i) != null){
-                gameObjects.get(i).drawImage(buffer);
-            }
+            gameObjects.get(i).drawImage(buffer);
         }
 
         this.t1.drawImage(buffer);
@@ -193,6 +202,6 @@ public class GameWorld extends JPanel implements Runnable {
         g.drawImage(mm, at, null);
     }
 
-    public void addGameObject(Bullet b) { this.gameObjects.add(b); }
-    public void removeGameObject(Bullet b) { gameObjects.remove(b); }
+    public void addGameObject(GameObject g) { this.gameObjects.add(g); }
+    public void removeGameObject(GameObject g) { gameObjects.remove(g); }
 }

@@ -19,7 +19,7 @@ public class Bullet extends GameObject {
         this.angle = angle;
     }
 
-    void update(){
+    public void update(){
         vx = Math.round(R * Math.cos(Math.toRadians(angle)));
         vy = Math.round(R * Math.sin(Math.toRadians(angle)));
         x += vx;

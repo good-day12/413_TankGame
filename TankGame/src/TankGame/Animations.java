@@ -21,6 +21,14 @@ public class Animations {
         this.isRunning = true;
     }
 
+    public boolean isRunning() {
+        return isRunning;
+    }
+
+    public void setRunning(boolean running) {
+        isRunning = running;
+    }
+
     //instead of update, do thread running function
     public void update(){
         if ( (this.timeSinceLastFrameUpdate + this.delay) < System.currentTimeMillis()){

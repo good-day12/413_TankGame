@@ -67,8 +67,8 @@ public class GameWorld extends JPanel implements Runnable {
                 gameObjects.removeIf(go -> go.hasCollided); //remove all objects that have collided
 
                 this.anims.forEach(a-> a.update());
-                //this.anims.removeIf(a-> !a.isRunning());
-                //
+                this.anims.removeIf(a-> !a.isRunning());
+
                 //this.anims.add(new Animations(x,y, Resources.getAnimation("shoot")));
 
 
@@ -117,10 +117,11 @@ public class GameWorld extends JPanel implements Runnable {
                 GameConstants.WORLD_HEIGHT,
                 BufferedImage.TYPE_INT_RGB);
 
-        try(BufferedReader mapReader = new BufferedReader(new InputStreamReader(GameWorld.class.getClassLoader().getResourceAsStream("Maps/Book1.csv")))){
+        try(BufferedReader mapReader = new BufferedReader(new InputStreamReader(GameWorld.class.getClassLoader().getResourceAsStream("Maps/map1.csv")))){
             for(int i = 0; mapReader.ready(); i++){
                 String[] gameObjectNums = mapReader.readLine().split(",");
                 for(int j = 0; j < gameObjectNums.length; j++){
+                    if(gameObjectNums[j].equals("0")) continue;
                     String objectType = gameObjectNums[j];
                     this.gameObjects.add(GameObject.gameObjectFactory(objectType, i *30, j*30));
                 }

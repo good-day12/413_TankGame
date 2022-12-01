@@ -1,5 +1,6 @@
 package TankGame.game.GameObjects.mobile;
 
+import TankGame.Animations;
 import TankGame.GameConstants;
 import TankGame.Resources;
 import TankGame.game.Camera;
@@ -31,13 +32,14 @@ public class Tank extends GameObject {
     private boolean DownPressed;
     private boolean RightPressed;
     private boolean LeftPressed;
-
     private boolean shootPressed;
 
     private long coolDown = 2000; //2000 milliseconds, 2 seconds, cooldown for shooting POWERUP possibility
     private long timeLastShot = 0;
 
     private Camera cam;
+    private List<Animations> anims = new ArrayList<>(20);
+
 
     private List<Bullet> ammo = new ArrayList<>(500); //start with large array so we don't need to resize
 
@@ -112,9 +114,11 @@ public class Tank extends GameObject {
             gw.addGameObject(b);
             this.ammo.add(b);
 //            Resources.getSound("Shoot").playSound();
+//            this.anims.add(new Animations(setBulletStartX(), setBulletStartY(), Resources.getAnimation("shoot")));
         }
 
         this.ammo.forEach(b -> b.update());
+//        this.anims.forEach(a -> a.update());
         this.ammo.removeIf(b -> b.checkBorder());
         //remove it from gameObjects list somehow
 

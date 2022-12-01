@@ -3,7 +3,7 @@ package TankGame.game.GameObjects;
 import TankGame.Resources;
 import TankGame.game.GameObjects.mobile.Bullet;
 import TankGame.game.GameObjects.mobile.Tank;
-import TankGame.game.GameObjects.stationary.Wall;
+import TankGame.game.GameObjects.stationary.*;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -45,26 +45,14 @@ public abstract class GameObject {
 
     //this is called the static factory method
     public static GameObject gameObjectFactory(String type, float x, float y){
-        switch(type){
-            case "0" -> {}
-
-            case "2" -> {
-                //breakable wall
-                return new Wall(x, y, Resources.getSprite("break1"));
-
-            }
-
-            case "3", "9" -> {
-                //load unbreakable wall
-                return new Wall(x, y, Resources.getSprite("unbreak"));
-            }
-
-            default -> {
-                throw new IllegalStateException("Unexpected value " + type);
-                //rest of the numbers will be powerups, and etc
-            }
-        }
-        return null;
+        return switch(type){
+            case "2" -> new BreakableWall(x, y, Resources.getSprite("break1"));
+            case "3", "9" -> new Wall(x, y, Resources.getSprite("unbreak"));
+            case "4" ->     new Speed(x,y,Resources.getSprite("speed"));
+            case "5" ->     new Health(x, y, Resources.getSprite("health"));
+            case "6" ->     new Shield(x,y, Resources.getSprite("shield"));
+            default -> throw new IllegalStateException("Unexpected value: " + type);
+        };
     }
 
     public static void collisionChecks(List<GameObject> gameObjects){

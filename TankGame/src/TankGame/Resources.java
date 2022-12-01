@@ -48,7 +48,7 @@ public class Resources {
 
         try {
             audioStream = AudioSystem.getAudioInputStream(
-                    Resources.class.getClassLoader().getResource("Music/music.mid"));
+                    Objects.requireNonNull(Resources.class.getClassLoader().getResource("Music/music.mid")));
             c = AudioSystem.getClip();
             c.open((audioStream));
             s = new Sound(c);
@@ -62,11 +62,7 @@ public class Resources {
 //            s = new Sound(c);
 //            Resources.sounds.put("NEWSOUND NAME", s);
 
-        } catch (UnsupportedAudioFileException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (LineUnavailableException e) {
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             throw new RuntimeException(e);
         }
     }

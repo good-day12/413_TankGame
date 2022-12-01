@@ -61,6 +61,8 @@ public class GameWorld extends JPanel implements Runnable {
                 //update tanks
                 this.t1.update(this); // update tank
                 this.t2.update(this); // update tank
+
+
                 //update bullets
                 for(int i = 0; i < gameObjects.size(); i++){
                     if (gameObjects.get(i) instanceof Bullet){
@@ -145,14 +147,16 @@ public class GameWorld extends JPanel implements Runnable {
 
 
         //ADD FIRST TANK
-        t1 = new Tank(300, 300, 0, 0, (short) 0, Resources.getSprite("tank1"));
+        t1 = new Tank(300, 300, 0, 0, (short) 0, 1, Resources.getSprite("tank1"));
         TankControl tc1 = new TankControl(t1, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_SPACE);
         this.lf.getJf().addKeyListener(tc1);
+        gameObjects.add(t1);
 
         //ADD SECOND TANK
-        t2 = new Tank(300, 300, 0, 0, (short) 0, Resources.getSprite("tank2"));
+        t2 = new Tank(300, 300, 0, 0, (short) 0, 2, Resources.getSprite("tank2"));
         TankControl tc2 = new TankControl(t2, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_SHIFT);
         this.lf.getJf().addKeyListener(tc2);
+        gameObjects.add(t2);
 
         //add camera object
         cam = new Camera(t1, t2);

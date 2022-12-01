@@ -13,10 +13,16 @@ public class Bullet extends GameObject {
     float vx = 0;
     float vy = 0;
     float R = 6;
+    int tankId;
 
-    public Bullet(float x, float y, float angle) {
+    public Bullet(float x, float y, float angle, int tankId) {
         super(x, y, Resources.getSprite("bullet"));
+        this.tankId = tankId;
         this.angle = angle;
+    }
+
+    public int getTankId() {
+        return tankId;
     }
 
     public void update(){
@@ -53,8 +59,9 @@ public class Bullet extends GameObject {
         return false;
     }
 //what if we pass a gameObject to this function, then throw all the gross if statements in here?
-    public void collision(GameObject go){
-        if (go instanceof Tank t) {
+    public void collision(Tank t){
+        t.setHealth(t.getHealth() - 25);
+        if (t.getHealth() <= 0) {
             t.setLives(t.getLives() - 1); //decrement life of tank
         }
     }

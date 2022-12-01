@@ -28,6 +28,7 @@ public class Tank extends GameObject {
     private float ROTATIONSPEED = 3.0f;
     private int lives = 3;
     private int health = 100;
+    private int tankId;
     private boolean UpPressed;
     private boolean DownPressed;
     private boolean RightPressed;
@@ -43,11 +44,16 @@ public class Tank extends GameObject {
 
     private List<Bullet> ammo = new ArrayList<>(500); //start with large array so we don't need to resize
 
-    public Tank(float x, float y, float vx, float vy, float angle, BufferedImage img) {
+    public Tank(float x, float y, float vx, float vy, float angle, int tankId, BufferedImage img) {
         super(x, y, img);
         this.vx = vx;
         this.vy = vy;
         this.angle = angle;
+        this.tankId = tankId;
+    }
+
+    public int getTankId() {
+        return tankId;
     }
 
     public void setCam(Camera cam) {
@@ -102,7 +108,7 @@ public class Tank extends GameObject {
         }
         if (this.shootPressed && (this.timeLastShot + coolDown) < System.currentTimeMillis()){
             this.timeLastShot = System.currentTimeMillis();
-            Bullet b = new Bullet (setBulletStartX(), setBulletStartY(), angle);
+            Bullet b = new Bullet (setBulletStartX(), setBulletStartY(), angle, this.tankId);
             gw.addGameObject(b);
             //this.ammo.add(b);
 //            Resources.getSound("Shoot").playSound();

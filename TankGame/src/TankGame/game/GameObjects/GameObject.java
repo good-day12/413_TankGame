@@ -61,8 +61,12 @@ public abstract class GameObject {
         //inner loop, things that get hit
         for (int i =0; i < gameObjects.size(); i++){
             GameObject ob1 = gameObjects.get(i);
-            if (ob1 == null) continue;
             if (ob1 instanceof Wall) continue; //powerups, etc
+            if (ob1 instanceof BreakableWall) continue;
+            if (ob1 instanceof Shield) continue;
+            if (ob1 instanceof Speed) continue;
+            if (ob1 instanceof Health) continue;
+
             //ob1 should only be tanks and bullets
             for (int j = 0; j < gameObjects.size(); j++){
                 if (i == j) continue; //cant hit self
@@ -84,15 +88,16 @@ public abstract class GameObject {
                     //shooting example,
 //
                     if (ob2 instanceof Bullet && !ob2.hasCollided){
-                        if (ob1 instanceof Tank) {
-                            ((Bullet) ob2).collision(ob1); //what if a bullet hits a bullet?
+                        //second condition is to ensure tank can't hit self && ( (Bullet) ob2).getTankId() != ((Tank) ob1).getTankId()
+                        if (ob1 instanceof Tank && ( (Bullet) ob2).getTankId() != ((Tank) ob1).getTankId()) {
+                            ((Bullet) ob2).collision((Tank) ob1); //what if a bullet hits a bullet?
                             //Resources.getSound("bullet").playSound();
+                            System.out.println("BULLET HIT!");
+                            gameObjects.remove(ob2); //remove bullet after collision
                         }
-
-                        gameObjects.remove(ob2); //remove bullet after collision
                         //what to do when a bullet is hit
                     }
-                    System.out.println("COLLIDED");
+                    //System.out.println("COLLIDED");
                 }
             }
         }

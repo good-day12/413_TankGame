@@ -108,7 +108,7 @@ public class Tank extends GameObject {
         }
         if (this.shootPressed && (this.timeLastShot + coolDown) < System.currentTimeMillis()){
             this.timeLastShot = System.currentTimeMillis();
-            Bullet b = new Bullet (setBulletStartX(), setBulletStartY(), angle, this.tankId);
+            Bullet b = new Bullet (setBulletStartX(), setBulletStartY(), angle, tankId);
             gw.addGameObject(b);
             //this.ammo.add(b);
 //            Resources.getSound("Shoot").playSound();

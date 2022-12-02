@@ -72,36 +72,42 @@ public abstract class GameObject {
                 if (i == j) continue; //cant hit self
                 GameObject ob2 = gameObjects.get(j);
                 if(ob1.getHitbox().intersects(ob2.getHitbox())){
-                    //do collision stuff, should be abstracted to lower classes
-                    //if bullet colliding with tank, take life away
-                    //if tank colliding with wall, reset position
-                    //if tank colliding with powerUp, give power
-                    //if tank collding with breakable wall, start breaking wall
-
-                    //powerup example, should be in powerup class
-//                    if(ob2 instanceof PowerUp && !ob2.hasCollided){
-//                        System.out.println("hit a powerup");
-//                        Resources.getSound("powerup").playSound();
-//                        ob2.hasCollided = true;
-//                    }
-
-                    //shooting example,
-//
-                    if (ob2 instanceof Bullet && !ob2.hasCollided){
-                        //second condition is to ensure tank can't hit self && ( (Bullet) ob2).getTankId() != ((Tank) ob1).getTankId()
-                        if (ob1 instanceof Tank && ( (Bullet) ob2).getTankId() != ((Tank) ob1).getTankId()) {
-                            ((Bullet) ob2).collision((Tank) ob1); //what if a bullet hits a bullet?
-                            //Resources.getSound("bullet").playSound();
-                            System.out.println("BULLET HIT!");
-                            gameObjects.remove(ob2); //remove bullet after collision
+                    if(ob2 instanceof Tank) { //&& ( (Bullet) ob1).getTankId() != ((Tank) ob2).getTankId()
+                        if(ob1 instanceof Bullet){
+                            ((Bullet) ob1).collision((Tank) ob2);
+                            System.out.println("BULLET HIT");
                         }
-                        //what to do when a bullet is hit
                     }
                     //System.out.println("COLLIDED");
                 }
             }
         }
     }
+    //do collision stuff, should be abstracted to lower classes
+    //if bullet colliding with tank, take life away
+    //if tank colliding with wall, reset position
+    //if tank colliding with powerUp, give power
+    //if tank collding with breakable wall, start breaking wall
+
+    //powerup example, should be in powerup class
+//                    if(ob2 instanceof PowerUp && !ob2.hasCollided){
+//                        System.out.println("hit a powerup");
+//                        Resources.getSound("powerup").playSound();
+//                        ob2.hasCollided = true;
+//                    }
+
+    //shooting example,
+//
+//                    if (ob2 instanceof Bullet && !ob2.hasCollided){
+//                        //second condition is to ensure tank can't hit self && ( (Bullet) ob2).getTankId() != ((Tank) ob1).getTankId()
+//                        if (ob1 instanceof Tank) {
+//                            ((Bullet) ob2).collision((Tank) ob1); //what if a bullet hits a bullet?
+//                            //Resources.getSound("bullet").playSound();
+//                            System.out.println("BULLET HIT!");
+//                            //gameObjects.remove(ob2); //remove bullet after collision
+//                        }
+
+
 
     public void drawImage(Graphics g){
         Graphics2D g2d = (Graphics2D) g;

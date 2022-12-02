@@ -28,7 +28,7 @@ public class Resources {
         try {
             Resources.sprites.put("tank1", loadSprite("Tank/tank1.png"));
             Resources.sprites.put("tank2", loadSprite("Tank/tank2.png"));
-            Resources.sprites.put("bullet", loadSprite("Bullet/Shell.gif"));
+            Resources.sprites.put("bullet", loadSprite("Bullet/bullet.jpg"));
             Resources.sprites.put("menu", loadSprite("Menu/title.png"));
             Resources.sprites.put("unbreak", loadSprite("Wall/Wall1.gif"));
             Resources.sprites.put("break1", loadSprite("Wall/Wall2.gif"));
@@ -61,6 +61,28 @@ public class Resources {
 //            c.open((audioStream));
 //            s = new Sound(c);
 //            Resources.sounds.put("NEWSOUND NAME", s);
+
+            //a new sound example
+            audioStream = AudioSystem.getAudioInputStream(
+                    Objects.requireNonNull(Resources.class.getClassLoader().getResource("Sounds/shotexplosion.wav")));
+            c = AudioSystem.getClip();
+            c.open((audioStream));
+            s = new Sound(c);
+            Resources.sounds.put("bulletHit", s);
+
+            audioStream = AudioSystem.getAudioInputStream(
+                    Objects.requireNonNull(Resources.class.getClassLoader().getResource("Sounds/bullet.wav")));
+            c = AudioSystem.getClip();
+            c.open((audioStream));
+            s = new Sound(c);
+            Resources.sounds.put("bulletShot", s);
+
+            audioStream = AudioSystem.getAudioInputStream(
+                    Objects.requireNonNull(Resources.class.getClassLoader().getResource("Sounds/pickup.wav")));
+            c = AudioSystem.getClip();
+            c.open((audioStream));
+            s = new Sound(c);
+            Resources.sounds.put("powerup", s);
 
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             throw new RuntimeException(e);

@@ -69,16 +69,25 @@ public abstract class GameObject {
 
             //ob1 should only be tanks and bullets
             for (int j = 0; j < gameObjects.size(); j++){
-                if (i == j) continue; //cant hit self
+                if (i == j) continue; //can't hit self
                 GameObject ob2 = gameObjects.get(j);
                 if(ob1.getHitbox().intersects(ob2.getHitbox())){
-                    if(ob2 instanceof Tank) { //&& ( (Bullet) ob1).getTankId() != ((Tank) ob2).getTankId()
-                        if(ob1 instanceof Bullet){
-                            ((Bullet) ob1).collision((Tank) ob2);
-                            System.out.println("BULLET HIT");
+
+                    //Bullets hitting tanks
+                    if (ob2 instanceof Bullet && !ob2.hasCollided){
+                        //second condition is to ensure tank can't hit self
+                        if (ob1 instanceof Tank && ( (Bullet) ob2).getBulletId() != ((Tank) ob1).getTankId()) {
+                            ((Bullet) ob2).collision((Tank) ob1); //what if a bullet hits a bullet?
                         }
                     }
-                    //System.out.println("COLLIDED");
+
+                    //Walls
+                    if (ob2 instanceof Wall){
+                        //tank hitting walls
+                        if (ob1 instanceof Tank) {
+                            ((Wall) ob2).tankCollision((Tank) ob1);
+                        }
+                    }
                 }
             }
         }
@@ -98,16 +107,12 @@ public abstract class GameObject {
 
     //shooting example,
 //
-//                    if (ob2 instanceof Bullet && !ob2.hasCollided){
-//                        //second condition is to ensure tank can't hit self && ( (Bullet) ob2).getTankId() != ((Tank) ob1).getTankId()
-//                        if (ob1 instanceof Tank) {
-//                            ((Bullet) ob2).collision((Tank) ob1); //what if a bullet hits a bullet?
-//                            //Resources.getSound("bullet").playSound();
-//                            System.out.println("BULLET HIT!");
-//                            //gameObjects.remove(ob2); //remove bullet after collision
-//                        }
 
-
+//                    if(ob2 instanceof Tank ) { //&& ( (Bullet) ob1).getTankId() != ((Tank) ob2).getTankId()
+//                            if(ob1 instanceof Bullet && ( (Bullet) ob1).getTankId() != ((Tank) ob2).getTankId()){
+//                            ((Bullet) ob1).collision((Tank) ob2);
+//                            System.out.println("BULLET HIT");
+//                            }
 
     public void drawImage(Graphics g){
         Graphics2D g2d = (Graphics2D) g;

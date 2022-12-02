@@ -102,10 +102,10 @@ public class GameWorld extends JPanel implements Runnable {
                  * we will do this with by ending the game when ~8 seconds has passed.
                  * This will need to be changed since the will always close after 8 seconds
                  */
-                if (this.tick >= 144 * 8) {
-                    this.lf.setFrame("end");
-                    return;
-                }
+//                if (this.tick >= 144 * 8) {
+//                    this.lf.setFrame("end");
+//                    return;
+//                }
 
             }
         } catch (InterruptedException ignored) {
@@ -147,13 +147,13 @@ public class GameWorld extends JPanel implements Runnable {
 
 
         //ADD FIRST TANK
-        t1 = new Tank(300, 300, 0, 0, (short) 0, 1, Resources.getSprite("tank1"));
+        t1 = new Tank(400, 400, 0, 0, (short) 0, 1, Resources.getSprite("tank1"));
         TankControl tc1 = new TankControl(t1, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_SPACE);
         this.lf.getJf().addKeyListener(tc1);
         gameObjects.add(t1);
 
         //ADD SECOND TANK
-        t2 = new Tank(300, 300, 0, 0, (short) 0, 2, Resources.getSprite("tank2"));
+        t2 = new Tank(400, 400, 0, 0, (short) 0, 2, Resources.getSprite("tank2"));
         TankControl tc2 = new TankControl(t2, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_SHIFT);
         this.lf.getJf().addKeyListener(tc2);
         gameObjects.add(t2);

@@ -111,7 +111,7 @@ public class Tank extends GameObject {
             Bullet b = new Bullet (setBulletStartX(), setBulletStartY(), angle, tankId);
             gw.addGameObject(b);
             //this.ammo.add(b);
-//            Resources.getSound("Shoot").playSound();
+            Resources.getSound("bulletShot").playSound();
 //            this.anims.add(new Animations(setBulletStartX(), setBulletStartY(), Resources.getAnimation("shoot")));
         }
 
@@ -184,6 +184,8 @@ public class Tank extends GameObject {
         g2d.drawRect((int) x - 20,(int) y - 20, 100, 15);
         g2d.fillRect((int) x - 20,(int) y - 20, this.health, 15);
         //can use g2d.setColor(Color.red) //if we want to change the colors
+
+        //lives
         //do a loop using lives, i * 15 for x
         g2d.drawOval((int) x, (int) y + 65, 10, 10);
     }

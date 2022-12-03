@@ -78,7 +78,7 @@ public class GameWorld extends JPanel implements Runnable {
                 GameObject.collisionChecks(gameObjects);
 
                 //remove if object has collided
-                gameObjects.removeIf(go -> go.hasCollided); //remove all objects that have collided
+                gameObjects.removeIf(go -> go.isHasCollided()); //remove all objects that have collided
 
                 this.anims.forEach(a-> a.update());
                 this.anims.removeIf(a-> !a.isRunning());

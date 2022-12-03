@@ -1,6 +1,7 @@
 package TankGame.game.GameObjects.stationary;
 
 import TankGame.game.GameObjects.GameObject;
+import TankGame.game.GameObjects.mobile.Bullet;
 import TankGame.game.GameObjects.mobile.Tank;
 
 import java.awt.*;
@@ -20,13 +21,13 @@ public class Wall extends GameObject {
     }
 
     //going left into wall works aka tank is on right of wall
-    public void tankCollision(Tank t){
+    public void collision(Tank t){
         //create new rectangle representing the intersection of two hitboxes
         Rectangle i = new Rectangle(t.getHitbox().intersection(this.getHitbox()));
         double yMidpoint = this.y - (this.getHitbox().getHeight() / 2);
-        double xMidpoint = this.x - (this.getHitbox().getWidth() / 2);
+        double xMidpoint = this.x + (this.getHitbox().getWidth() / 2);
         if(i.getHeight() > i.getWidth()){
-            if(i.getX() > (this.x + (this.getHitbox().getWidth() / 2)) ){ //tank is to right of wall
+            if(i.getX() > xMidpoint ){ //tank is to right of wall
                 t.setX( (float) (i.getX() + i.getWidth()) ); //should i add one to create a buffer of space?
             } else{ //tank is to left of wall
                 t.setX( (float) (i.getX() - this.getHitbox().getWidth() - i.getWidth() - 20 ) ); //should I subtract one to creat a buffer of space?
@@ -34,11 +35,14 @@ public class Wall extends GameObject {
         }
         else{
             if(t.getY() < yMidpoint){ //tank is above wall
-                System.out.println("ABOVE");
                 t.setY((float) (this.getHitbox().getY() - t.getHitbox().getHeight()));
             } else{ //tank is above wall
                 t.setY((float) (this.getHitbox().getY() + t.getHitbox().getHeight()) - 10);
             }
         }
+    }
+
+    public void collision(Bullet b) {
+        b.setHasCollided(true);
     }
 }

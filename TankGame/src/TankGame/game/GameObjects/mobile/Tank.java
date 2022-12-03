@@ -187,7 +187,11 @@ public class Tank extends GameObject {
 
         //lives
         //do a loop using lives, i * 15 for x
-        g2d.drawOval((int) x, (int) y + 65, 10, 10);
+        //g2d.drawOval((int) x, (int) y + 65, 10, 10);
+        for (int i = 0; i < lives; i ++){
+            g2d.drawOval((int) x +(i * 15), (int) y + 65, 10, 10);
+            g2d.fillOval((int) x +(i * 15), (int) y + 65, 10, 10);
+        }
     }
 
     private int setBulletStartX(){
@@ -198,7 +202,4 @@ public class Tank extends GameObject {
         float cy = 29f * (float) Math.sin(Math.toRadians(angle));
         return (int) y + this.img.getHeight() / 2 + (int) cy - 4;
     }
-
-
-
 }

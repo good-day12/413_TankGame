@@ -30,8 +30,9 @@ public class Resources {
             Resources.sprites.put("tank2", loadSprite("Tank/tank2.png"));
             Resources.sprites.put("bullet", loadSprite("Bullet/bullet.jpg"));
             Resources.sprites.put("menu", loadSprite("Menu/title.png"));
-            Resources.sprites.put("unbreak", loadSprite("Wall/Wall1.gif"));
-            Resources.sprites.put("break1", loadSprite("Wall/Wall2.gif"));
+            Resources.sprites.put("unbreak", loadSprite("Wall/unbreak.jpg"));
+            Resources.sprites.put("break1", loadSprite("Wall/Wall1.gif"));
+            Resources.sprites.put("break2", loadSprite("Wall/Wall2.gif"));
             Resources.sprites.put("floor", loadSprite("Background.bmp"));
             Resources.sprites.put("health", loadSprite("PowerUp/health.png"));
             Resources.sprites.put("shield", loadSprite("PowerUp/shield.png"));

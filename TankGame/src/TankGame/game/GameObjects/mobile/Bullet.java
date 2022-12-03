@@ -65,6 +65,7 @@ public class Bullet extends GameObject {
         t.setHealth(t.getHealth() - 25);
         if (t.getHealth() <= 0) {
             t.setLives(t.getLives() - 1); //decrement life of tank
+            t.setHealth(100);
         }
         this.hasCollided = true;
     }

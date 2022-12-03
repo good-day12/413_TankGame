@@ -17,7 +17,7 @@ public abstract class GameObject {
     protected Rectangle hitbox;
     //game object needs to create hitbox
     //should have x, y variables as well
-    public boolean hasCollided;
+    protected boolean hasCollided;
 
     public Rectangle getHitbox(){
         return this.hitbox.getBounds();
@@ -33,6 +33,14 @@ public abstract class GameObject {
 
     public float getY() {
         return y;
+    }
+
+    public boolean isHasCollided() {
+        return hasCollided;
+    }
+
+    public void setHasCollided(boolean hasCollided) {
+        this.hasCollided = hasCollided;
     }
 
     public GameObject(float x, float y, BufferedImage img) {
@@ -85,7 +93,19 @@ public abstract class GameObject {
                     if (ob2 instanceof Wall){
                         //tank hitting walls
                         if (ob1 instanceof Tank) {
-                            ((Wall) ob2).tankCollision((Tank) ob1);
+                            ((Wall) ob2).collision((Tank) ob1);
+                        }
+                        //bullet hitting walls
+                        if (ob1 instanceof Bullet){
+                            ((Wall) ob2).collision((Bullet) ob1);
+                        }
+                    }
+
+                    //Breakable walls
+                    if(ob2 instanceof BreakableWall){
+                        //bullet hits breakable wall
+                        if (ob1 instanceof Bullet){
+                            ((BreakableWall) ob2).collide((Bullet) ob1);
                         }
                     }
                 }

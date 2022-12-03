@@ -5,13 +5,11 @@ import TankGame.game.GameObjects.mobile.Tank;
 
 import java.awt.image.BufferedImage;
 
-public class Health extends PowerUp {
-    public Health(float x, float y, BufferedImage img) {
+public abstract class PowerUp extends GameObject {
+
+    public PowerUp(float x, float y, BufferedImage img) {
         super(x, y, img);
     }
 
-    @Override
-    void collide(Tank t) {
-
-    }
+    abstract void collide(Tank t);
 }

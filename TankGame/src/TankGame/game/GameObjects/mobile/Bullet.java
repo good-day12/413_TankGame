@@ -1,5 +1,6 @@
 package TankGame.game.GameObjects.mobile;
 
+import TankGame.Animations;
 import TankGame.GameConstants;
 import TankGame.Resources;
 import TankGame.game.GameObjects.GameObject;
@@ -67,6 +68,7 @@ public class Bullet extends GameObject {
             t.setLives(t.getLives() - 1); //decrement life of tank
             t.setHealth(100);
         }
+        t.addAnims(new Animations(this.getX(), this.getY(), Resources.getAnimation("collide")));
         this.hasCollided = true;
     }
 

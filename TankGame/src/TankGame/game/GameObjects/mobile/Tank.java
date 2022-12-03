@@ -34,15 +34,10 @@ public class Tank extends GameObject {
     private boolean RightPressed;
     private boolean LeftPressed;
     private boolean shootPressed;
-
-    private long coolDown = 2000; //2000 milliseconds, 2 seconds, cooldown for shooting POWERUP possibility
+    private long coolDown = 200; //2000 milliseconds, 2 seconds, cooldown for shooting POWERUP possibility
     private long timeLastShot = 0;
-
     private Camera cam;
     private List<Animations> anims = new ArrayList<>(20);
-
-
-    private List<Bullet> ammo = new ArrayList<>(500); //start with large array so we don't need to resize
 
     public Tank(float x, float y, float vx, float vy, float angle, int tankId, BufferedImage img) {
         super(x, y, img);
@@ -90,7 +85,7 @@ public class Tank extends GameObject {
     }
     void unToggleShootPressed() { this.shootPressed = false; }
 
-    public void update(GameWorld gw) {
+    public boolean update(GameWorld gw) {
         if (this.UpPressed) {
             this.moveForwards();
         }
@@ -110,15 +105,18 @@ public class Tank extends GameObject {
             this.timeLastShot = System.currentTimeMillis();
             Bullet b = new Bullet (setBulletStartX(), setBulletStartY(), angle, tankId);
             gw.addGameObject(b);
-            //this.ammo.add(b);
             Resources.getSound("bulletShot").playSound();
-//            this.anims.add(new Animations(setBulletStartX(), setBulletStartY(), Resources.getAnimation("shoot")));
+            this.anims.add(new Animations(setBulletStartX(), setBulletStartY(), Resources.getAnimation("shoot")));
         }
 
         //this.ammo.forEach(b -> b.update());
-//        this.anims.forEach(a -> a.update());
+        this.anims.forEach(a -> a.update());
+        this.anims.removeIf(a-> !a.isRunning());
         //this.ammo.removeIf(b -> b.checkBorder());
         //remove it from gameObjects list somehow
+
+        //return true if tank is still alive, else tank is dead, end game
+        return lives > 0;
 
     }
 
@@ -179,7 +177,7 @@ public class Tank extends GameObject {
         g2d.drawRect((int)x,(int)y,this.img.getWidth(), this.img.getHeight());
 
         //this.ammo.forEach(b -> b.drawImage(g)); //don't use forEach, traditional for loop
-
+        this.anims.forEach(a-> a.drawImage(g2d));
         //health bar
         g2d.drawRect((int) x - 20,(int) y - 20, 100, 15);
         g2d.fillRect((int) x - 20,(int) y - 20, this.health, 15);
@@ -194,6 +192,10 @@ public class Tank extends GameObject {
         }
     }
 
+    public void addAnims(Animations a){
+        this.anims.add(a);
+    }
+
     private int setBulletStartX(){
         float cx = 29f * (float) Math.cos(Math.toRadians(angle));
         return (int) x + this.img.getWidth() / 2 + (int) cx - 4;
@@ -202,4 +204,6 @@ public class Tank extends GameObject {
         float cy = 29f * (float) Math.sin(Math.toRadians(angle));
         return (int) y + this.img.getHeight() / 2 + (int) cy - 4;
     }
+
+
 }

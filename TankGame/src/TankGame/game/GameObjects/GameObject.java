@@ -108,6 +108,8 @@ public abstract class GameObject {
                             ((BreakableWall) ob2).collide((Bullet) ob1);
                         }
                     }
+                    //powerups
+
                 }
             }
         }

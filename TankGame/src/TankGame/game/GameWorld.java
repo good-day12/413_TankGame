@@ -38,7 +38,6 @@ public class GameWorld extends JPanel implements Runnable {
     private long tick = 0;
     private Sound bgMusic;
     private List<GameObject> gameObjects = new ArrayList<>(500);
-    private List<Animations> anims = new ArrayList<>(20);
 
     /**
      * 
@@ -58,9 +57,11 @@ public class GameWorld extends JPanel implements Runnable {
 //            bgMusic.playSound();
             while (true) {
                 this.tick++;
-                //update tanks
-                this.t1.update(this); // update tank
-                this.t2.update(this); // update tank
+                //update tanks, if returns false, tank is dead, end game
+                if ( !this.t1.update(this) ||
+                !this.t2.update(this)){
+                    this.lf.setFrame("end");
+                }
 
 
                 //update bullets
@@ -80,16 +81,7 @@ public class GameWorld extends JPanel implements Runnable {
                 //remove if object has collided
                 gameObjects.removeIf(go -> go.isHasCollided()); //remove all objects that have collided
 
-                this.anims.forEach(a-> a.update());
-                this.anims.removeIf(a-> !a.isRunning());
-
-                //this.anims.add(new Animations(x,y, Resources.getAnimation("shoot")));
-
-
-
                 this.repaint();   // redraw game
-
-                //this.gameObjects.removeIf(g -> g.hasCollided); //more efficient, won't shift for every delete
 
                 /*
                  * Sleep for 1000/144 ms (~6.9ms). This is done to have our 
@@ -181,8 +173,6 @@ public class GameWorld extends JPanel implements Runnable {
         this.t2.drawImage(buffer);
         //g2.drawImage(world, 0, 0, null);
 
-        this.anims.forEach(a -> a.drawImage(buffer));
-
         this.cam.drawSplitScreen(g2, world);
         drawMiniMap(g2, world);
     }
@@ -207,5 +197,4 @@ public class GameWorld extends JPanel implements Runnable {
     }
 
     public void addGameObject(GameObject g) { this.gameObjects.add(g); }
-    public void removeGameObject(GameObject g) { gameObjects.remove(g); }
 }

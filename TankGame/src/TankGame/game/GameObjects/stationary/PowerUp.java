@@ -11,5 +11,5 @@ public abstract class PowerUp extends GameObject {
         super(x, y, img);
     }
 
-    abstract void collide(Tank t);
+    public abstract void collide(Tank t);
 }

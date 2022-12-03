@@ -10,8 +10,10 @@ public class Speed extends PowerUp {
         super(x, y, img);
     }
 
+
+    //use timing method from teacher's cooldown shooting idea
     @Override
-    void collide(Tank t) {
+    public void collide(Tank t) {
 
     }
 }

@@ -109,7 +109,12 @@ public abstract class GameObject {
                         }
                     }
                     //powerups
-
+                    if (ob2 instanceof PowerUp){
+                        //ensure bullets don't hit power ups
+                        if (ob1 instanceof Tank){
+                            ((PowerUp) ob2).collide((Tank) ob1);
+                        }
+                    }
                 }
             }
         }

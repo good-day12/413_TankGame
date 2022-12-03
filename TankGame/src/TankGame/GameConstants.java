@@ -10,6 +10,6 @@ public class GameConstants {
     public static final int END_MENU_SCREEN_WIDTH = 500;
     public static final int END_MENU_SCREEN_HEIGHT = 500;
 
-    public static final int WORLD_WIDTH = 1920;
-    public static final int WORLD_HEIGHT = 1440;
+    public static final int WORLD_WIDTH = 1440; //1920?
+    public static final int WORLD_HEIGHT = 1920; //1440?
 }

@@ -35,8 +35,12 @@ public class Tank extends GameObject {
     private boolean RightPressed;
     private boolean LeftPressed;
     private boolean shootPressed;
-    private long shootCoolDown = 200; //2000 milliseconds, 2 seconds, cooldown for shooting POWERUP possibility
+    private long shootCoolDown = 2000; //2000 milliseconds, 2 seconds, cooldown for shooting POWERUP possibility
     private long timeLastShot = 0;
+
+    private boolean shotSpeed = false;
+    private long timeGotShotSpeed = 0;
+    private long timeForShotSpeed = 4000; //4000 milliseconds, 4 seconds for rapid fire
 
     //shield usage
     private boolean shieldOn = false; //whether we have a shield or not
@@ -117,6 +121,13 @@ public class Tank extends GameObject {
 
         if (this.shieldOn){
             shield.shieldUpdate();
+        }
+
+        if (shotSpeed){
+            if (timeGotShotSpeed + timeForShotSpeed < System.currentTimeMillis()){
+                shotSpeed = false;
+                shootCoolDown = 2000; //reset shot cooldown to normal
+            }
         }
 
         this.anims.forEach(a -> a.update());
@@ -226,6 +237,20 @@ public class Tank extends GameObject {
 
     public void setSheild(Shield s) {
         this.shield = s;
+    }
+
+    public void resetTank(){
+        health = 100;
+        lives = 3;
+        anims.clear();
+        this.x = 400;
+        this.y = 400;
+    }
+
+    public void shotSpeedBoost(){
+        shotSpeed = true;
+        shootCoolDown = 200; //lower cool down for rapid fire
+        timeGotShotSpeed = System.currentTimeMillis();
     }
 
     private int setBulletStartX(){

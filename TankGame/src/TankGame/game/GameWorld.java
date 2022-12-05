@@ -38,6 +38,7 @@ public class GameWorld extends JPanel implements Runnable {
     private long tick = 0;
     private Sound bgMusic;
     private List<GameObject> gameObjects = new ArrayList<>(500);
+    private boolean resetGame = false;
 
     /**
      * 
@@ -50,36 +51,35 @@ public class GameWorld extends JPanel implements Runnable {
     @Override
     public void run() {
         try {
-            //this.resetGame();
+            //run background music while game is running
 //            bgMusic = Resources.getSound("bg");
 //            bgMusic.setVolume(0.5f);
 //            bgMusic.setLooping();
 //            bgMusic.playSound();
+
             while (true) {
+                //check if we need to reset game
+                if (this.resetGame) this.resetGame();
+                //update tick
                 this.tick++;
                 //update tanks, if returns false, tank is dead, end game
                 if ( !this.t1.update(this) ||
                 !this.t2.update(this)){
+                    this.resetGame = true;
                     this.lf.setFrame("end");
-                    this.resetGame();
+                    Thread.currentThread().stop();
                 }
 
-
-                //update bullets
+                //update bullets, what if i made this a function in the bullet class?
                 for(int i = 0; i < gameObjects.size(); i++){
                     if (gameObjects.get(i) instanceof Bullet){
                         ((Bullet) gameObjects.get(i)).update();
                         if (((Bullet) gameObjects.get(i)).checkBorder()) gameObjects.remove(i);
                     }
-                    else {
-                        continue;
-                    }
                 }
 
-                //collision checks
-                GameObject.collisionChecks(gameObjects);
+                GameObject.collisionChecks(gameObjects);    //collision checks
 
-                //remove if object has collided
                 gameObjects.removeIf(go -> go.isHasCollided()); //remove all objects that have collided
 
                 this.repaint();   // redraw game
@@ -89,17 +89,6 @@ public class GameWorld extends JPanel implements Runnable {
                  * loop run at a fixed rate per/sec. 
                 */
                 Thread.sleep(1000 / 144);
-
-                /*
-                 * simulate an end game event
-                 * we will do this with by ending the game when ~8 seconds has passed.
-                 * This will need to be changed since the will always close after 8 seconds
-                 */
-//                if (this.tick >= 144 * 8) {
-//                    this.lf.setFrame("end");
-//                    return;
-//                }
-
             }
         } catch (InterruptedException ignored) {
             System.out.println(ignored);
@@ -110,9 +99,12 @@ public class GameWorld extends JPanel implements Runnable {
      * Reset game to its initial state.
      */
     public void resetGame() {
+        //reset game by resetting ticks, tanks, and remove all bullets from gameObjects list
         this.tick = 0;
-        this.t1.setX(400);
-        this.t1.setY(400);
+        this.t1.resetTank();
+        this.t2.resetTank();
+        this.gameObjects.removeIf(a -> a instanceof Bullet);
+        resetGame = false;
     }
 
     /**

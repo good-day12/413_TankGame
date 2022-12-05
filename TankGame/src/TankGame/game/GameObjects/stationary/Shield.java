@@ -52,7 +52,7 @@ public class Shield extends PowerUp {
     public void collide(Tank t) {
         //ensure tank doesn't already have a shield
         if (!t.isShield()) {
-            this.img = Resources.getSprite("shield1");
+            this.img = Resources.getSprite("shield" + t.getTankId());
             this.t = t;
             t.addShield(this);
             timeGotShield = System.currentTimeMillis();

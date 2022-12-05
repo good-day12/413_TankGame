@@ -56,7 +56,7 @@ public abstract class GameObject {
         return switch(type){
             case "2" -> new BreakableWall(x, y, Resources.getSprite("break1"));
             case "3", "9" -> new Wall(x, y, Resources.getSprite("unbreak"));
-            case "4" ->     new Speed(x,y,Resources.getSprite("speed"));
+            case "4" ->     new ShootSpeed(x,y,Resources.getSprite("speed"));
             case "5" ->     new Health(x, y, Resources.getSprite("health"));
             case "6" ->     new Shield(x,y, Resources.getSprite("shield"));
             default -> throw new IllegalStateException("Unexpected value: " + type);
@@ -72,7 +72,7 @@ public abstract class GameObject {
             if (ob1 instanceof Wall) continue; //powerups, etc
             if (ob1 instanceof BreakableWall) continue;
             if (ob1 instanceof Shield) continue;
-            if (ob1 instanceof Speed) continue;
+            if (ob1 instanceof ShootSpeed) continue;
             if (ob1 instanceof Health) continue;
 
             //ob1 should only be tanks and bullets

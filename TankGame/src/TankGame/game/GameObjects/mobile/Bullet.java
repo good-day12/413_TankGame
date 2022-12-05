@@ -8,6 +8,7 @@ import TankGame.game.GameObjects.GameObject;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.util.List;
 
 public class Bullet extends GameObject {
     float angle;
@@ -76,5 +77,4 @@ public class Bullet extends GameObject {
         t.addAnims(new Animations(this.getX(), this.getY(), Resources.getAnimation("collide")));
         this.hasCollided = true;
     }
-
 }

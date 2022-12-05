@@ -63,10 +63,15 @@ public class Bullet extends GameObject {
 //what if we pass a gameObject to this function, then throw all the gross if statements in here?
     public void collision(Tank t){
         Resources.getSound("bulletHit").playSound();
-        t.setHealth(t.getHealth() - 25);
-        if (t.getHealth() <= 0) {
-            t.setLives(t.getLives() - 1); //decrement life of tank
-            t.setHealth(100);
+        if (t.isShield()){
+            //set shield lives to decrement if hit by bullet
+            t.getShield().setShieldLives(t.getShield().getShieldLives() - 1);
+        } else { //if no shield check health
+            t.setHealth(t.getHealth() - 25);
+            if (t.getHealth() <= 0) {
+                t.setLives(t.getLives() - 1); //decrement life of tank
+                t.setHealth(100);
+            }
         }
         t.addAnims(new Animations(this.getX(), this.getY(), Resources.getAnimation("collide")));
         this.hasCollided = true;

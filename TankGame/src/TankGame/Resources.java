@@ -36,6 +36,9 @@ public class Resources {
             Resources.sprites.put("floor", loadSprite("Background.bmp"));
             Resources.sprites.put("health", loadSprite("PowerUp/health.png"));
             Resources.sprites.put("shield", loadSprite("PowerUp/shield.png"));
+            Resources.sprites.put("shield1", loadSprite("PowerUp/Shield1.gif"));
+            Resources.sprites.put("shield2", loadSprite("PowerUp/Shield2.gif"));
+
             Resources.sprites.put("speed", loadSprite("PowerUp/speed.png"));
         } catch (IOException e) {
             e.printStackTrace();

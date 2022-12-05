@@ -113,6 +113,9 @@ public abstract class GameObject {
                         //ensure bullets don't hit power ups
                         if (ob1 instanceof Tank){
                             ((PowerUp) ob2).collide((Tank) ob1);
+//                            if ((ob2 instanceof Shield)){
+//                                gameObjects.add(new Shield(Resources.getSprite("shield1"), ((Tank) ob1)));
+//                            }
                         }
                     }
                 }

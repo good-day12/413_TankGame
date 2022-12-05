@@ -5,6 +5,7 @@ import TankGame.GameConstants;
 import TankGame.Resources;
 import TankGame.game.Camera;
 import TankGame.game.GameObjects.GameObject;
+import TankGame.game.GameObjects.stationary.Shield;
 import TankGame.game.GameWorld;
 
 import java.awt.*;
@@ -34,8 +35,13 @@ public class Tank extends GameObject {
     private boolean RightPressed;
     private boolean LeftPressed;
     private boolean shootPressed;
-    private long coolDown = 200; //2000 milliseconds, 2 seconds, cooldown for shooting POWERUP possibility
+    private long shootCoolDown = 200; //2000 milliseconds, 2 seconds, cooldown for shooting POWERUP possibility
     private long timeLastShot = 0;
+
+    //shield usage
+    private boolean shieldOn = false; //whether we have a shield or not
+
+    private Shield shield;
     private Camera cam;
     private List<Animations> anims = new ArrayList<>(20);
 
@@ -101,7 +107,7 @@ public class Tank extends GameObject {
         if (this.RightPressed) {
             this.rotateRight();
         }
-        if (this.shootPressed && (this.timeLastShot + coolDown) < System.currentTimeMillis()){
+        if (this.shootPressed && (this.timeLastShot + shootCoolDown) < System.currentTimeMillis()){
             this.timeLastShot = System.currentTimeMillis();
             Bullet b = new Bullet (setBulletStartX(), setBulletStartY(), angle, tankId);
             gw.addGameObject(b);
@@ -109,11 +115,12 @@ public class Tank extends GameObject {
             this.anims.add(new Animations(setBulletStartX(), setBulletStartY(), Resources.getAnimation("shoot")));
         }
 
-        //this.ammo.forEach(b -> b.update());
+        if (this.shieldOn){
+            shield.shieldUpdate();
+        }
+
         this.anims.forEach(a -> a.update());
         this.anims.removeIf(a-> !a.isRunning());
-        //this.ammo.removeIf(b -> b.checkBorder());
-        //remove it from gameObjects list somehow
 
         //return true if tank is still alive, else tank is dead, end game
         return lives > 0;
@@ -176,7 +183,6 @@ public class Tank extends GameObject {
         g2d.setColor(Color.RED);
         g2d.drawRect((int)x,(int)y,this.img.getWidth(), this.img.getHeight());
 
-        //this.ammo.forEach(b -> b.drawImage(g)); //don't use forEach, traditional for loop
         this.anims.forEach(a-> a.drawImage(g2d));
         //health bar
         g2d.drawRect((int) x - 20,(int) y - 20, 100, 15);
@@ -184,16 +190,43 @@ public class Tank extends GameObject {
         //can use g2d.setColor(Color.red) //if we want to change the colors
 
         //lives
-        //do a loop using lives, i * 15 for x
-        //g2d.drawOval((int) x, (int) y + 65, 10, 10);
         for (int i = 0; i < lives; i ++){
             g2d.drawOval((int) x +(i * 15), (int) y + 65, 10, 10);
             g2d.fillOval((int) x +(i * 15), (int) y + 65, 10, 10);
+        }
+
+        if (shieldOn) {
+            shield.drawImage(g);
         }
     }
 
     public void addAnims(Animations a){
         this.anims.add(a);
+    }
+
+    public boolean isShield() {
+        return shieldOn;
+    }
+
+    public void setShield(boolean shield) {
+        this.shieldOn = shield;
+        if (!shield){
+            this.shield.setHasCollided(true);
+            this.shield = null;
+        }
+    }
+
+    public void addShield(Shield s){
+        this.shieldOn = true;
+        this.shield = s;
+    }
+
+    public Shield getShield() {
+        return shield;
+    }
+
+    public void setSheild(Shield s) {
+        this.shield = s;
     }
 
     private int setBulletStartX(){
@@ -204,6 +237,5 @@ public class Tank extends GameObject {
         float cy = 29f * (float) Math.sin(Math.toRadians(angle));
         return (int) y + this.img.getHeight() / 2 + (int) cy - 4;
     }
-
 
 }

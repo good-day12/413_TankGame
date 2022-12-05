@@ -1,9 +1,13 @@
 package TankGame.game.GameObjects;
 
-import TankGame.Resources;
+import TankGame.ResourceHandler.Resources;
 import TankGame.game.GameObjects.mobile.Bullet;
 import TankGame.game.GameObjects.mobile.Tank;
 import TankGame.game.GameObjects.stationary.*;
+import TankGame.game.GameObjects.stationary.PowerUps.Health;
+import TankGame.game.GameObjects.stationary.PowerUp;
+import TankGame.game.GameObjects.stationary.PowerUps.Shield;
+import TankGame.game.GameObjects.stationary.PowerUps.ShootSpeed;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

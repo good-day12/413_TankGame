@@ -1,8 +1,7 @@
-package TankGame;
+package TankGame.ResourceHandler;
 
 import TankGame.game.GameWorld;
 
-import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;

@@ -1,6 +1,6 @@
 package TankGame.game;
 
-import TankGame.GameConstants;
+import TankGame.ResourceHandler.GameConstants;
 import TankGame.game.GameObjects.mobile.Tank;
 
 import java.awt.*;

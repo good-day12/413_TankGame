@@ -1,6 +1,8 @@
 package TankGame;
 
 
+import TankGame.ResourceHandler.GameConstants;
+import TankGame.ResourceHandler.Resources;
 import TankGame.game.GameWorld;
 import TankGame.menus.EndGamePanel;
 import TankGame.menus.StartMenuPanel;

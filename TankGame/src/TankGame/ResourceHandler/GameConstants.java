@@ -1,4 +1,4 @@
-package TankGame;
+package TankGame.ResourceHandler;
 
 public class GameConstants {
     public static final int GAME_SCREEN_WIDTH = 1280; //a multiple of 30, 30 is wall size

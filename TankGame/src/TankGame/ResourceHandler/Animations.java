@@ -1,4 +1,4 @@
-package TankGame;
+package TankGame.ResourceHandler;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

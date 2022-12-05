@@ -1,11 +1,11 @@
 package TankGame.game.GameObjects.mobile;
 
-import TankGame.Animations;
-import TankGame.GameConstants;
-import TankGame.Resources;
+import TankGame.ResourceHandler.Animations;
+import TankGame.ResourceHandler.GameConstants;
+import TankGame.ResourceHandler.Resources;
 import TankGame.game.Camera;
 import TankGame.game.GameObjects.GameObject;
-import TankGame.game.GameObjects.stationary.Shield;
+import TankGame.game.GameObjects.stationary.PowerUps.Shield;
 import TankGame.game.GameWorld;
 
 import java.awt.*;
@@ -245,6 +245,10 @@ public class Tank extends GameObject {
         anims.clear();
         this.x = 400;
         this.y = 400;
+        if(shieldOn){
+            this.shield.setHasCollided(true);
+            this.setShield(false);
+        }
     }
 
     public void shotSpeedBoost(){

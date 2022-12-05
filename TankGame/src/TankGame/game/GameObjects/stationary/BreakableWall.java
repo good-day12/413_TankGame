@@ -1,6 +1,6 @@
 package TankGame.game.GameObjects.stationary;
 
-import TankGame.Resources;
+import TankGame.ResourceHandler.Resources;
 import TankGame.game.GameObjects.mobile.Bullet;
 
 import java.awt.image.BufferedImage;

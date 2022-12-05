@@ -1,14 +1,12 @@
 package TankGame.game.GameObjects.mobile;
 
-import TankGame.Animations;
-import TankGame.GameConstants;
-import TankGame.Resources;
+import TankGame.ResourceHandler.Animations;
+import TankGame.ResourceHandler.GameConstants;
+import TankGame.ResourceHandler.Resources;
 import TankGame.game.GameObjects.GameObject;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.util.List;
 
 public class Bullet extends GameObject {
     float angle;

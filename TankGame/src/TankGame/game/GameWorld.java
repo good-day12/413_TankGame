@@ -7,10 +7,12 @@ package TankGame.game;
 
 
 import TankGame.*;
+import TankGame.ResourceHandler.GameConstants;
+import TankGame.ResourceHandler.Resources;
+import TankGame.ResourceHandler.Sound;
 import TankGame.game.GameObjects.GameObject;
 import TankGame.game.GameObjects.mobile.Bullet;
 import TankGame.game.GameObjects.mobile.TankControl;
-import TankGame.game.GameObjects.stationary.Wall;
 import TankGame.game.GameObjects.mobile.Tank;
 
 import javax.swing.*;

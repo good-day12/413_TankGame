@@ -1,7 +1,7 @@
 package TankGame.menus;
 
 import TankGame.Launcher;
-import TankGame.Resources;
+import TankGame.ResourceHandler.Resources;
 
 import javax.swing.*;
 import java.awt.*;

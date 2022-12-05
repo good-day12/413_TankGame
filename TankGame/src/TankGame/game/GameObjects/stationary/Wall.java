@@ -13,7 +13,7 @@ public class Wall extends GameObject {
         super(x, y, img);
     }
 
-    //going left into wall works aka tank is on right of wall
+    //if tank collides into wall, prevent tank movement into tank's hitbox
     public void collision(Tank t){
         //create new rectangle representing the intersection of two hitboxes
         Rectangle i = new Rectangle(t.getHitbox().intersection(this.getHitbox()));
@@ -21,20 +21,21 @@ public class Wall extends GameObject {
         double xMidpoint = this.x + (this.getHitbox().getWidth() / 2);
         if(i.getHeight() > i.getWidth()){
             if(i.getX() > xMidpoint ){ //tank is to right of wall
-                t.setX( (float) (i.getX() + i.getWidth()) ); //should i add one to create a buffer of space?
+                t.setX( (float) (i.getX() + i.getWidth()) );
             } else{ //tank is to left of wall
-                t.setX( (float) (i.getX() - this.getHitbox().getWidth() - i.getWidth() - 20 ) ); //should I subtract one to creat a buffer of space?
+                t.setX( (float) (i.getX() - this.getHitbox().getWidth() - i.getWidth() - 20 ) );
             }
         }
         else{
             if(t.getY() < yMidpoint){ //tank is above wall
                 t.setY((float) (this.getHitbox().getY() - t.getHitbox().getHeight()));
-            } else{ //tank is above wall
+            } else{ //tank is below wall
                 t.setY((float) (this.getHitbox().getY() + t.getHitbox().getHeight()) - 10);
             }
         }
     }
 
+    //if bullet hit walls
     public void collision(Bullet b) {
         b.setHasCollided(true);
     }

@@ -14,11 +14,6 @@ public class Camera {
     private float t2screenX;
     private float t2screenY;
 
-    /*
-    * Camera and tank both heavily depend on eachother, they must be passed to eachother in order to work correctly
-    * Is that ok?
-    * */
-
     public Camera(Tank t1, Tank t2) {
         this.t1 = t1;
         this.t2 = t2;

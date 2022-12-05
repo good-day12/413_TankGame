@@ -235,10 +235,6 @@ public class Tank extends GameObject {
         return shield;
     }
 
-    public void setSheild(Shield s) {
-        this.shield = s;
-    }
-
     public void resetTank(){
         health = 100;
         lives = 3;

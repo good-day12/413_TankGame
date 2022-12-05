@@ -1,8 +1,8 @@
-package TankGame.game.GameObjects.stationary;
+package TankGame.game.GameObjects.stationary.PowerUps;
 
-import TankGame.Resources;
-import TankGame.game.GameObjects.GameObject;
+import TankGame.ResourceHandler.Resources;
 import TankGame.game.GameObjects.mobile.Tank;
+import TankGame.game.GameObjects.stationary.PowerUp;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

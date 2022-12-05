@@ -61,6 +61,7 @@ public class GameWorld extends JPanel implements Runnable {
                 if ( !this.t1.update(this) ||
                 !this.t2.update(this)){
                     this.lf.setFrame("end");
+                    this.resetGame();
                 }
 
 
@@ -110,8 +111,8 @@ public class GameWorld extends JPanel implements Runnable {
      */
     public void resetGame() {
         this.tick = 0;
-        this.t1.setX(300);
-        this.t1.setY(300);
+        this.t1.setX(400);
+        this.t1.setY(400);
     }
 
     /**

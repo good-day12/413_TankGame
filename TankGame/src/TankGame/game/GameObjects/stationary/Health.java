@@ -16,5 +16,6 @@ public class Health extends PowerUp {
         if (t.getHealth() < 100) t.setHealth(100);
         //give an extra life if health is already 100
         if (t.getHealth() == 100) t.setLives(t.getLives() + 1);
+        this.hasCollided = true;
     }
 }

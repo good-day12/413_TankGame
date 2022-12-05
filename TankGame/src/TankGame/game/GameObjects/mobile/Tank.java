@@ -211,7 +211,6 @@ public class Tank extends GameObject {
     public void setShield(boolean shield) {
         this.shieldOn = shield;
         if (!shield){
-            this.shield.setHasCollided(true);
             this.shield = null;
         }
     }

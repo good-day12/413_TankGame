@@ -50,11 +50,13 @@ public class Shield extends PowerUp {
     //use timing method from teacher's cooldown shooting idea
     @Override
     public void collide(Tank t) {
-        this.img = Resources.getSprite("shield1");
-        this.t = t;
-        t.addShield(this);
-//        t.setTimeGotShield(System.currentTimeMillis());
-        timeGotShield = System.currentTimeMillis();
+        //ensure tank doesn't already have a shield
+        if (!t.isShield()) {
+            this.img = Resources.getSprite("shield1");
+            this.t = t;
+            t.addShield(this);
+            timeGotShield = System.currentTimeMillis();
+        }
     }
 
     @Override
@@ -69,6 +71,7 @@ public class Shield extends PowerUp {
     public void shieldUpdate(){
         //if our shield timer runs out of lives or is hit too much, remove shield effect
         if (timeGotShield + shieldUseTime < System.currentTimeMillis() || shieldLives == 0){
+            this.setHasCollided(true);
             t.setShield(false);
         }
     }

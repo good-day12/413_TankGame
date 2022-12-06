@@ -15,6 +15,13 @@ public class Bullet extends GameObject {
     float R = 6;
     int bulletId;
 
+    /**
+     * Constructor for the Bullet object
+     * @param x - x position of the bullet (same as muzzle of tank)
+     * @param y - x position of the bullet (same as muzzle of tank)
+     * @param angle - angle of the bullet (same as tank)
+     * @param tankId - what tank shot this bullet
+     */
     public Bullet(float x, float y, float angle, int tankId) {
         super(x, y, Resources.getSprite("bullet"));
         this.bulletId = tankId;
@@ -25,6 +32,9 @@ public class Bullet extends GameObject {
         return bulletId;
     }
 
+    /**
+     * To update the position and hitbox of the bullet
+     */
     public void update(){
         vx = Math.round(R * Math.cos(Math.toRadians(angle)));
         vy = Math.round(R * Math.sin(Math.toRadians(angle)));
@@ -33,17 +43,22 @@ public class Bullet extends GameObject {
         this.hitbox.setLocation((int) x,(int) y);
     }
 
+    /**
+     * Draw the image of the bullet
+     * @param g - where we are drawing the image onto
+     */
     @Override
     public void drawImage(Graphics g) {
         AffineTransform rotation = AffineTransform.getTranslateInstance(x, y);
         rotation.rotate(Math.toRadians(angle), this.img.getWidth() / 2.0, this.img.getHeight() / 2.0);
         Graphics2D g2d = (Graphics2D) g;
         g2d.drawImage(this.img, rotation, null);
-        g2d.setColor(Color.GREEN);
-        g2d.drawRect((int)x,(int)y,this.img.getWidth(), this.img.getHeight());
     }
 
-    //check to remove bullet if out of bounds of the map
+    /**
+     * check to remove bullet if out of bounds of the map
+     * @return true if it collides with border, false if it does not
+     */
     public boolean checkBorder() {
         if (x < 30) {
             return true;
@@ -59,7 +74,12 @@ public class Bullet extends GameObject {
         }
         return false;
     }
-//what if we pass a gameObject to this function, then throw all the gross if statements in here?
+
+    /**
+     * What to do when bullet hits tank, decrement health of tank, or if health is 0 decrement life,
+     * or if we hit a shield decrement shield hit
+     * @param t
+     */
     public void collision(Tank t){
         Resources.getSound("bulletHit").playSound();
         if (t.isShield()){

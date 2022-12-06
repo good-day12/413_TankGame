@@ -19,9 +19,6 @@ import java.util.List;
  */
 public class Tank extends GameObject {
 
-    /*
-    * Should I include a camera object here? I need to be able to call center screen with
-    * this class...*/
     private float vx;
     private float vy;
     private float angle;
@@ -38,6 +35,7 @@ public class Tank extends GameObject {
     private long shootCoolDown = 2000; //2000 milliseconds, 2 seconds, cooldown for shooting POWERUP possibility
     private long timeLastShot = 0;
 
+    //shot cooldown usage
     private boolean shotSpeed = false;
     private long timeGotShotSpeed = 0;
     private long timeForShotSpeed = 4000; //4000 milliseconds, 4 seconds for rapid fire
@@ -95,6 +93,11 @@ public class Tank extends GameObject {
     }
     void unToggleShootPressed() { this.shootPressed = false; }
 
+    /**
+     * update where the tank is moving too or if it is shooting or not
+     * @param gw where the tanks are being drawn on
+     * @return true if tank is still alive, false if tank is dead
+     */
     public boolean update(GameWorld gw) {
         if (this.UpPressed) {
             this.moveForwards();
@@ -166,6 +169,9 @@ public class Tank extends GameObject {
         this.hitbox.setLocation((int) x, (int) y);
     }
 
+    /**
+     * Check if tank is within borders, if not reset tank to be within borders
+     */
     private void checkBorder() {
         if (x < 30) {
             x = 30;
@@ -186,6 +192,10 @@ public class Tank extends GameObject {
         return "x=" + x + ", y=" + y + ", angle=" + angle;
     }
 
+    /**
+     * Draw tank, animations, health and lives
+     * @param g - where we draw onto
+     */
     public void drawImage(Graphics g) {
         AffineTransform rotation = AffineTransform.getTranslateInstance(x, y);
         rotation.rotate(Math.toRadians(angle), this.img.getWidth() / 2.0, this.img.getHeight() / 2.0);
@@ -223,6 +233,10 @@ public class Tank extends GameObject {
         return shieldOn;
     }
 
+    /**
+     * If shield is false remove shield from tank by setting shield to null
+     * @param shield
+     */
     public void setShield(boolean shield) {
         this.shieldOn = shield;
         if (!shield){
@@ -230,6 +244,10 @@ public class Tank extends GameObject {
         }
     }
 
+    /**
+     * Add shield to tank
+     * @param s - shield to be added soon
+     */
     public void addShield(Shield s){
         this.shieldOn = true;
         this.shield = s;
@@ -239,16 +257,28 @@ public class Tank extends GameObject {
         return shield;
     }
 
+    /**
+     * Lower the cooldown for shooting for a specified time
+     */
     public void shotSpeedBoost(){
         shotSpeed = true;
         shootCoolDown = 200; //lower cool down for rapid fire
         timeGotShotSpeed = System.currentTimeMillis();
     }
 
+    /**
+     * To set the x position of the bullet to the muzzle of tank
+     * @return
+     */
     private int setBulletStartX(){
         float cx = 29f * (float) Math.cos(Math.toRadians(angle));
         return (int) x + this.img.getWidth() / 2 + (int) cx - 4;
     }
+
+    /**
+     * To set the y position of the bullet to the muzzle of tank
+     * @return
+     */
     private int setBulletStartY(){
         float cy = 29f * (float) Math.sin(Math.toRadians(angle));
         return (int) y + this.img.getHeight() / 2 + (int) cy - 4;

@@ -14,7 +14,12 @@ public class Shield extends PowerUp {
     private long timeGotShield = 0;
     private int shieldLives = 2;
 
-    //constructor for powerUp on map
+    /**
+     * Constructor for powerup on map
+     * @param x - x location on img
+     * @param y - y location on img
+     * @param img - img of powerup
+     */
     public Shield(float x, float y, BufferedImage img) { super(x, y, img); }
 
     public int getShieldLives() {
@@ -25,7 +30,12 @@ public class Shield extends PowerUp {
         this.shieldLives = shieldLives;
     }
 
-    //use timing method from teacher's cooldown shooting idea
+    /**
+     * What to do when we collide with a tank,
+     * Set tank Shield to this shield
+     * Change image from powerup to the shield image
+     * @param t
+     */
     @Override
     public void collide(Tank t) {
         //ensure tank doesn't already have a shield
@@ -37,6 +47,10 @@ public class Shield extends PowerUp {
         }
     }
 
+    /**
+     * To draw image of shield over tank when the tank is protected
+     * @param g - what we are drawing onto
+     */
     @Override
     public void drawImage(Graphics g) {
         if (t != null) {
@@ -46,6 +60,9 @@ public class Shield extends PowerUp {
         super.drawImage(g);
     }
 
+    /**
+     * Update the shield condition, if timer is not out and shield still have lives keep shield, else set to false
+     */
     public void shieldUpdate(){
         //if our shield timer runs out of lives or is hit too much, remove shield effect
         if (timeGotShield + shieldUseTime < System.currentTimeMillis() || shieldLives == 0){

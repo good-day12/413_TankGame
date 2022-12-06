@@ -13,7 +13,10 @@ public class Wall extends GameObject {
         super(x, y, img);
     }
 
-    //if tank collides into wall, prevent tank movement into tank's hitbox
+    /**
+     * To prevent movement of tank through or into wall's hitboxes
+     * @param t
+     */
     public void collision(Tank t){
         //create new rectangle representing the intersection of two hitboxes
         Rectangle i = new Rectangle(t.getHitbox().intersection(this.getHitbox()));
@@ -35,7 +38,10 @@ public class Wall extends GameObject {
         }
     }
 
-    //if bullet hit walls
+    /**
+     * If bullet hits walls, remove bullet
+     * @param b
+     */
     public void collision(Bullet b) {
         b.setHasCollided(true);
     }

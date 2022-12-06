@@ -7,11 +7,20 @@ import java.awt.image.BufferedImage;
 
 public class ShootSpeed extends PowerUp {
 
+    /**
+     * Constructor for powerup on map
+     * @param x - x location on img
+     * @param y - y location on img
+     * @param img - img of powerup
+     */
     public ShootSpeed(float x, float y, BufferedImage img) {
         super(x, y, img);
     }
 
-    //use timing method from teacher's cooldown shooting idea
+    /**
+     * To give the tank the speed boost condition
+     * @param t
+     */
     @Override
     public void collide(Tank t) {
         t.shotSpeedBoost();

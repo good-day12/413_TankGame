@@ -19,8 +19,6 @@ public abstract class GameObject {
     protected float y;
     protected BufferedImage img;
     protected Rectangle hitbox;
-    //game object needs to create hitbox
-    //should have x, y variables as well
     protected boolean hasCollided;
 
     public Rectangle getHitbox(){
@@ -47,6 +45,13 @@ public abstract class GameObject {
         this.hasCollided = hasCollided;
     }
 
+    /**
+     * Constructor for gameObject on map
+     * every gameobject also has a hitbox and boolean of hasCollided
+     * @param x - x location on img
+     * @param y - y location on img
+     * @param img - img of object
+     */
     public GameObject(float x, float y, BufferedImage img) {
         this.x = x;
         this.y = y;
@@ -68,7 +73,6 @@ public abstract class GameObject {
     }
 
     public static void collisionChecks(List<GameObject> gameObjects){
-        //COLLISIONSSSSSSSSSSSSSSS
         //outer loop, things that initiate collisions,
         //inner loop, things that get hit
         for (int i =0; i < gameObjects.size(); i++){
@@ -117,36 +121,12 @@ public abstract class GameObject {
                         //ensure bullets don't hit power ups
                         if (ob1 instanceof Tank){
                             ((PowerUp) ob2).collide((Tank) ob1);
-//                            if ((ob2 instanceof Shield)){
-//                                gameObjects.add(new Shield(Resources.getSprite("shield1"), ((Tank) ob1)));
-//                            }
                         }
                     }
                 }
             }
         }
     }
-    //do collision stuff, should be abstracted to lower classes
-    //if bullet colliding with tank, take life away
-    //if tank colliding with wall, reset position
-    //if tank colliding with powerUp, give power
-    //if tank collding with breakable wall, start breaking wall
-
-    //powerup example, should be in powerup class
-//                    if(ob2 instanceof PowerUp && !ob2.hasCollided){
-//                        System.out.println("hit a powerup");
-//                        Resources.getSound("powerup").playSound();
-//                        ob2.hasCollided = true;
-//                    }
-
-    //shooting example,
-//
-
-//                    if(ob2 instanceof Tank ) { //&& ( (Bullet) ob1).getTankId() != ((Tank) ob2).getTankId()
-//                            if(ob1 instanceof Bullet && ( (Bullet) ob1).getTankId() != ((Tank) ob2).getTankId()){
-//                            ((Bullet) ob1).collision((Tank) ob2);
-//                            System.out.println("BULLET HIT");
-//                            }
 
     public void drawImage(Graphics g){
         Graphics2D g2d = (Graphics2D) g;

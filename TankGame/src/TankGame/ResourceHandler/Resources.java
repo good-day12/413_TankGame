@@ -64,7 +64,7 @@ public class Resources {
         try {
             //background music
             audioStream = AudioSystem.getAudioInputStream(
-                    Objects.requireNonNull(Resources.class.getClassLoader().getResource("Music/music.mid")));
+                    Resources.class.getClassLoader().getResource("Music/music.mid"));
             c = AudioSystem.getClip();
             c.open((audioStream));
             s = new Sound(c);
@@ -72,7 +72,7 @@ public class Resources {
 
             //shot explosion sound
             audioStream = AudioSystem.getAudioInputStream(
-                    Objects.requireNonNull(Resources.class.getClassLoader().getResource("Sounds/shotexplosion.wav")));
+                    Resources.class.getClassLoader().getResource("Sounds/shotexplosion.wav"));
             c = AudioSystem.getClip();
             c.open((audioStream));
             s = new Sound(c);
@@ -80,7 +80,7 @@ public class Resources {
 
             //bullet shot sound
             audioStream = AudioSystem.getAudioInputStream(
-                    Objects.requireNonNull(Resources.class.getClassLoader().getResource("Sounds/bullet.wav")));
+                    Resources.class.getClassLoader().getResource("Sounds/bullet.wav"));
             c = AudioSystem.getClip();
             c.open((audioStream));
             s = new Sound(c);
@@ -88,7 +88,7 @@ public class Resources {
 
             //pick up powerup sound
             audioStream = AudioSystem.getAudioInputStream(
-                    Objects.requireNonNull(Resources.class.getClassLoader().getResource("Sounds/pickup.wav")));
+                    Resources.class.getClassLoader().getResource("Sounds/pickup.wav"));
             c = AudioSystem.getClip();
             c.open((audioStream));
             s = new Sound(c);

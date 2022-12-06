@@ -38,9 +38,9 @@ public class Shield extends PowerUp {
      */
     @Override
     public void collide(Tank t) {
-        Resources.getSound("powerup").playSound();
         //ensure tank doesn't already have a shield
         if (!t.isShield()) {
+            Resources.getSound("powerup").playSound();
             this.img = Resources.getSprite("shield" + t.getTankId());
             this.t = t;
             t.addShield(this);

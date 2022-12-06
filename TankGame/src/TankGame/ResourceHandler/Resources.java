@@ -64,7 +64,7 @@ public class Resources {
         try {
             //background music
             audioStream = AudioSystem.getAudioInputStream(
-                    Resources.class.getClassLoader().getResource("Music/music.mid"));
+                    Resources.class.getClassLoader().getResource("Music/Music.mid"));
             c = AudioSystem.getClip();
             c.open((audioStream));
             s = new Sound(c);

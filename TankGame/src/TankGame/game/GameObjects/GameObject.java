@@ -60,18 +60,30 @@ public abstract class GameObject {
         this.hasCollided = false;
     }
 
-    //this is called the static factory method
+    /**
+     * Use static factory method to create GameObjects from a number representing the
+     * corresponding GameObject
+     * @param type - string of number to represent a GameObject
+     * @param x - x location of GameObject
+     * @param y - y location of GameObject
+     * @return - GameObject of appropriate value according to the type
+     */
     public static GameObject gameObjectFactory(String type, float x, float y){
         return switch(type){
-            case "2" -> new BreakableWall(x, y, Resources.getSprite("break1"));
-            case "3", "9" -> new Wall(x, y, Resources.getSprite("unbreak"));
-            case "4" ->     new ShootSpeed(x,y,Resources.getSprite("speed"));
-            case "5" ->     new Health(x, y, Resources.getSprite("health"));
-            case "6" ->     new Shield(x,y, Resources.getSprite("shield"));
-            default -> throw new IllegalStateException("Unexpected value: " + type);
+            case "2" ->         new BreakableWall(x, y, Resources.getSprite("break1"));
+            case "3", "9" ->    new Wall(x, y, Resources.getSprite("unbreak"));
+            case "4" ->         new ShootSpeed(x,y,Resources.getSprite("speed"));
+            case "5" ->         new Health(x, y, Resources.getSprite("health"));
+            case "6" ->         new Shield(x,y, Resources.getSprite("shield"));
+            default -> throw    new IllegalStateException("Unexpected value: " + type);
         };
     }
 
+    /**
+     * This will use the gameObjects and check their locations and compare two objects to see if they collide
+     * and will give the appropriate reaction of they do collide
+     * @param gameObjects - a list of objects to check if they collide with each other
+     */
     public static void collisionChecks(List<GameObject> gameObjects){
         //outer loop, things that initiate collisions,
         //inner loop, things that get hit
@@ -128,6 +140,10 @@ public abstract class GameObject {
         }
     }
 
+    /**
+     * Draw the image of the GameObject
+     * @param g - graphics to draw image on
+     */
     public void drawImage(Graphics g){
         Graphics2D g2d = (Graphics2D) g;
         g.drawImage(this.img, (int) x, (int) y, null);

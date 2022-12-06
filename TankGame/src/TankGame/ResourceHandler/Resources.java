@@ -15,6 +15,12 @@ public class Resources {
     private static final Map<String, Sound> sounds = new HashMap<>();
     private static final Map<String, List<BufferedImage>> animations = new HashMap<>();
 
+    /**
+     * Short function to shorten our load path in the initializations
+     * @param path - path to image
+     * @return - BufferedImage from resources
+     * @throws IOException - if we don't load a source
+     */
     private static BufferedImage loadSprite (String path) throws IOException{
         return read(Objects.
                 requireNonNull(GameWorld
@@ -23,6 +29,9 @@ public class Resources {
                         .getResource(path)));
     }
 
+    /**
+     * Initialize all the images used for GameObjects
+     */
     private static void initSprites(){
         try {
             Resources.sprites.put("tank1", loadSprite("Tank/tank1.png"));
@@ -44,12 +53,16 @@ public class Resources {
         }
     }
 
+    /**
+     * Initialize all the sounds used for game
+     */
     private static void initSounds(){
         AudioInputStream audioStream;
         Clip c;
         Sound s;
 
         try {
+            //background music
             audioStream = AudioSystem.getAudioInputStream(
                     Objects.requireNonNull(Resources.class.getClassLoader().getResource("Music/music.mid")));
             c = AudioSystem.getClip();
@@ -57,15 +70,7 @@ public class Resources {
             s = new Sound(c);
             Resources.sounds.put("bg", s);
 
-            //a new sound example
-//            audioStream = AudioSystem.getAudioInputStream(
-//                    Resources.class.getClassLoader().getResource("Music/NEWSOUND"));
-//            c = AudioSystem.getClip();
-//            c.open((audioStream));
-//            s = new Sound(c);
-//            Resources.sounds.put("NEWSOUND NAME", s);
-
-            //a new sound example
+            //shot explosion sound
             audioStream = AudioSystem.getAudioInputStream(
                     Objects.requireNonNull(Resources.class.getClassLoader().getResource("Sounds/shotexplosion.wav")));
             c = AudioSystem.getClip();
@@ -73,6 +78,7 @@ public class Resources {
             s = new Sound(c);
             Resources.sounds.put("bulletHit", s);
 
+            //bullet shot sound
             audioStream = AudioSystem.getAudioInputStream(
                     Objects.requireNonNull(Resources.class.getClassLoader().getResource("Sounds/bullet.wav")));
             c = AudioSystem.getClip();
@@ -80,6 +86,7 @@ public class Resources {
             s = new Sound(c);
             Resources.sounds.put("bulletShot", s);
 
+            //pick up powerup sound
             audioStream = AudioSystem.getAudioInputStream(
                     Objects.requireNonNull(Resources.class.getClassLoader().getResource("Sounds/pickup.wav")));
             c = AudioSystem.getClip();
@@ -92,6 +99,9 @@ public class Resources {
         }
     }
 
+    /**
+     * Initialize all the animations used for game
+     */
     private static void initAnimations(){
         try{
             //% -> marker for string 0-> means to fill with zero if not enough #'s 4-> how many nums d-> int

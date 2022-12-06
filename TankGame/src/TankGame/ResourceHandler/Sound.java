@@ -3,6 +3,9 @@ package TankGame.ResourceHandler;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 
+/**
+ * Class used to play sound clips from resources into our game
+ */
 public class Sound {
     private Clip soundClip;
 

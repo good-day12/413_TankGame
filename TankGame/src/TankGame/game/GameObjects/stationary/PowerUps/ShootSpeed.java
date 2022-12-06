@@ -1,5 +1,6 @@
 package TankGame.game.GameObjects.stationary.PowerUps;
 
+import TankGame.ResourceHandler.Resources;
 import TankGame.game.GameObjects.mobile.Tank;
 import TankGame.game.GameObjects.stationary.PowerUp;
 
@@ -23,6 +24,7 @@ public class ShootSpeed extends PowerUp {
      */
     @Override
     public void collide(Tank t) {
+        Resources.getSound("powerup").playSound();
         t.shotSpeedBoost();
         this.hasCollided = true;
     }

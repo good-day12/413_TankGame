@@ -6,6 +6,9 @@ import TankGame.game.GameObjects.mobile.Tank;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/**
+ * This class is for the camera looking at each tank so we can get a split screen view that focuses on each tank
+ */
 public class Camera {
     private Tank t1;
     private Tank t2;
@@ -14,8 +17,11 @@ public class Camera {
     private float t2screenX;
     private float t2screenY;
 
-
-
+    /**
+     * The camera constructor will take two tanks and run center screen to get the initial placement of the screen
+     * @param t1
+     * @param t2
+     */
     public Camera(Tank t1, Tank t2) {
         this.t1 = t1;
         this.t2 = t2;
@@ -23,6 +29,11 @@ public class Camera {
         centerScreen();
     }
 
+    /**
+     * This function will draw the two separate views and place them next to each other in the panel for the view
+     * @param g - where we are drawing the image on
+     * @param world - where we are getting the sub image from
+     */
     public void drawSplitScreen(Graphics2D g, BufferedImage world){
         BufferedImage lh = world.getSubimage((int) this.t1screenX, //lh = left half
                 (int) this.t1screenY,
@@ -38,6 +49,9 @@ public class Camera {
         g.drawImage(rh, GameConstants.GAME_SCREEN_WIDTH/2, 0, null);
     }
 
+    /**
+     * This function will center the two screens so each screen will be focused on the appropriate tank
+     */
     public void centerScreen(){
         //center the first tank
         this.t1screenX = t1.getX() - GameConstants.GAME_SCREEN_WIDTH / 4f;

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package TankGame.game;
 
 
@@ -11,6 +6,8 @@ import TankGame.ResourceHandler.GameConstants;
 import TankGame.ResourceHandler.Resources;
 import TankGame.ResourceHandler.Sound;
 import TankGame.game.GameObjects.GameObject;
+import TankGame.game.UI.Camera;
+import TankGame.game.UI.UserInterface;
 import TankGame.game.GameObjects.mobile.Bullet;
 import TankGame.game.GameObjects.mobile.TankControl;
 import TankGame.game.GameObjects.mobile.Tank;
@@ -18,11 +15,7 @@ import TankGame.game.GameObjects.mobile.Tank;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +34,8 @@ public class GameWorld extends JPanel implements Runnable {
     private Sound bgMusic;
     private List<GameObject> gameObjects = new ArrayList<>(500);
     private boolean resetGame = false;
+    UserInterface ui = new UserInterface();
+
 
     /**
      * 
@@ -50,35 +45,24 @@ public class GameWorld extends JPanel implements Runnable {
         this.lf = lf;
     }
 
+    /**
+     * Run the game, check if we need to reset, update the game, check for collisions, remove if objects have collided,
+     * redraw the game,
+     */
     @Override
     public void run() {
         try {
             //run background music while game is running
-//            bgMusic = Resources.getSound("bg");
-//            bgMusic.setVolume(0.5f);
-//            bgMusic.setLooping();
-//            bgMusic.playSound();
+            bgMusic = Resources.getSound("bg");
+            bgMusic.setVolume(0.5f);
+            bgMusic.setLooping();
+            bgMusic.playSound();
 
             while (true) {
                 //check if we need to reset game
                 if (this.resetGame) this.resetGame();
-                //update tick
-                this.tick++;
-                //update tanks, if returns false, tank is dead, end game
-                if ( !this.t1.update(this) ||
-                !this.t2.update(this)){
-                    this.resetGame = true;
-                    this.lf.setFrame("end");
-                    Thread.currentThread().stop();
-                }
 
-                //update bullets, what if i made this a function in the bullet class?
-                for(int i = 0; i < gameObjects.size(); i++){
-                    if (gameObjects.get(i) instanceof Bullet){
-                        ((Bullet) gameObjects.get(i)).update();
-                        if (((Bullet) gameObjects.get(i)).checkBorder()) gameObjects.remove(i);
-                    }
-                }
+                this.updateGame();
 
                 GameObject.collisionChecks(gameObjects);    //collision checks
 
@@ -101,37 +85,25 @@ public class GameWorld extends JPanel implements Runnable {
      * Reset game to its initial state.
      */
     public void resetGame() {
-        //reset game by resetting ticks, tanks, and remove all bullets from gameObjects list
+        //reset ticks
         this.tick = 0;
-        this.t1.resetTank();
-        this.t2.resetTank();
-        this.gameObjects.removeIf(a -> a instanceof Bullet);
+
+        this.InitializeGame();
         resetGame = false;
     }
 
     /**
-     * Load all resources for Tank Wars Game. Set all Game Objects to their
-     * initial state as well. will be ugly and big
+     * Load all resources for Tank Wars Game, set all Game Objects to their
+     * initial state, create two tanks and add them to the game objects list,
+     * create camera object and assign them to tanks and vice versa
      */
     public void InitializeGame() {
         this.world = new BufferedImage(GameConstants.WORLD_WIDTH,
                 GameConstants.WORLD_HEIGHT,
                 BufferedImage.TYPE_INT_RGB);
 
-        try(BufferedReader mapReader = new BufferedReader(new InputStreamReader(GameWorld.class.getClassLoader().getResourceAsStream("Maps/map1.csv")))){
-            for(int i = 0; mapReader.ready(); i++){
-                String[] gameObjectNums = mapReader.readLine().split(",");
-                for(int j = 0; j < gameObjectNums.length; j++){
-                    if(gameObjectNums[j].equals("0")) continue;
-                    String objectType = gameObjectNums[j];
-                    this.gameObjects.add(GameObject.gameObjectFactory(objectType, i *30, j*30));
-                }
-            }
-        } catch(IOException e){
-            e.printStackTrace();
-        }
-
-
+        //load gameObjects with objects from our maps
+        gameObjects = ui.createGameObjectsList();
 
         //ADD FIRST TANK
         t1 = new Tank(400, 400, 0, 0, (short) 0, 1, Resources.getSprite("tank1"));
@@ -151,45 +123,56 @@ public class GameWorld extends JPanel implements Runnable {
         //attach camera object to tanks
         t1.setCam(cam);
         t2.setCam(cam);
-
     }
 
+    /**
+     * Paint/draw the game to the world BufferedImage
+     * @param g
+     */
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         Graphics2D buffer = world.createGraphics();
-        drawFloor(buffer);
+        ui.drawFloor(buffer);
 
-        for (int i = 0; i < gameObjects.size(); i ++){
-            gameObjects.get(i).drawImage(buffer);
+        for (GameObject gameObject : gameObjects) {
+            gameObject.drawImage(buffer);
         }
 
         this.t1.drawImage(buffer);
         this.t2.drawImage(buffer);
-        //g2.drawImage(world, 0, 0, null);
 
         this.cam.drawSplitScreen(g2, world);
-        drawMiniMap(g2, world);
+        ui.drawMiniMap(g2, world);
     }
 
-    void drawFloor(Graphics buffer){
-        //320 is the width of our image
-        for (int i = 0; i < GameConstants.WORLD_WIDTH; i += 320){
-            for (int j = 0; j < GameConstants.WORLD_HEIGHT; j+= 240){
-                buffer.drawImage(Resources.getSprite("floor"), i, j, null);
+    /**
+     * So functions outside of GameWorld can add  objects to GameObject as necessary
+     * @param g - item to be added to gameObjects list
+     */
+    public void addGameObject(GameObject g) { this.gameObjects.add(g); }
+
+    /**
+     * To update the game by updating the tanks, checking for reset game, and updating the bullets in gameObjects
+     * as well
+     */
+    private void updateGame(){
+        //update tick
+        this.tick++;
+        //update tanks, if returns false, tank is dead, end game
+        if ( !this.t1.update(this) ||
+                !this.t2.update(this)){
+            this.resetGame = true;
+            this.lf.setFrame("end");
+            Thread.currentThread().stop();
+        }
+
+        //update bullets, what if i made this a function in the bullet class?
+        for(int i = 0; i < gameObjects.size(); i++){
+            if (gameObjects.get(i) instanceof Bullet){
+                ((Bullet) gameObjects.get(i)).update();
+                if (((Bullet) gameObjects.get(i)).checkBorder()) gameObjects.remove(i);
             }
         }
     }
-
-    //can make it's own object
-    void drawMiniMap(Graphics2D g, BufferedImage world){
-        BufferedImage mm = world.getSubimage(0,0, GameConstants.WORLD_WIDTH, GameConstants.WORLD_HEIGHT);
-        AffineTransform at = new AffineTransform();
-        at.translate(GameConstants.GAME_SCREEN_WIDTH/2f - (GameConstants.WORLD_WIDTH * .2f)/2f,
-                GameConstants.GAME_SCREEN_HEIGHT - (GameConstants.WORLD_HEIGHT * .2f));
-        at.scale(.2, .2);
-        g.drawImage(mm, at, null);
-    }
-
-    public void addGameObject(GameObject g) { this.gameObjects.add(g); }
 }

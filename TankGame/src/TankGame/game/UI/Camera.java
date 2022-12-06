@@ -1,4 +1,4 @@
-package TankGame.game;
+package TankGame.game.UI;
 
 import TankGame.ResourceHandler.GameConstants;
 import TankGame.game.GameObjects.mobile.Tank;
@@ -13,6 +13,8 @@ public class Camera {
     private float t1screenY;
     private float t2screenX;
     private float t2screenY;
+
+
 
     public Camera(Tank t1, Tank t2) {
         this.t1 = t1;
@@ -68,4 +70,5 @@ public class Camera {
         }
 
     }
+
 }

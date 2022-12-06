@@ -3,7 +3,7 @@ package TankGame.game.GameObjects.mobile;
 import TankGame.ResourceHandler.Animations;
 import TankGame.ResourceHandler.GameConstants;
 import TankGame.ResourceHandler.Resources;
-import TankGame.game.Camera;
+import TankGame.game.UI.Camera;
 import TankGame.game.GameObjects.GameObject;
 import TankGame.game.GameObjects.stationary.PowerUps.Shield;
 import TankGame.game.GameWorld;
@@ -191,14 +191,18 @@ public class Tank extends GameObject {
         rotation.rotate(Math.toRadians(angle), this.img.getWidth() / 2.0, this.img.getHeight() / 2.0);
         Graphics2D g2d = (Graphics2D) g;
         g2d.drawImage(this.img, rotation, null);
-        g2d.setColor(Color.RED);
-        g2d.drawRect((int)x,(int)y,this.img.getWidth(), this.img.getHeight());
 
         this.anims.forEach(a-> a.drawImage(g2d));
+
         //health bar
+        g2d.setColor(Color.GREEN);
+        if (health == 50) {
+            g2d.setColor(Color.ORANGE);
+        } else if (health < 49){
+            g2d.setColor(Color.RED);
+        }
         g2d.drawRect((int) x - 20,(int) y - 20, 100, 15);
         g2d.fillRect((int) x - 20,(int) y - 20, this.health, 15);
-        //can use g2d.setColor(Color.red) //if we want to change the colors
 
         //lives
         for (int i = 0; i < lives; i ++){
@@ -233,18 +237,6 @@ public class Tank extends GameObject {
 
     public Shield getShield() {
         return shield;
-    }
-
-    public void resetTank(){
-        health = 100;
-        lives = 3;
-        anims.clear();
-        this.x = 400;
-        this.y = 400;
-        if(shieldOn){
-            this.shield.setHasCollided(true);
-            this.setShield(false);
-        }
     }
 
     public void shotSpeedBoost(){

@@ -169,7 +169,7 @@ public class GameWorld extends JPanel implements Runnable {
             Thread.currentThread().stop();
         }
 
-        //update bullets, what if i made this a function in the bullet class?
+        //update bullets
         for(int i = 0; i < gameObjects.size(); i++){
             if (gameObjects.get(i) instanceof Bullet){
                 ((Bullet) gameObjects.get(i)).update();

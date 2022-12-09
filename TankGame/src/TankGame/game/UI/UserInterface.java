@@ -23,7 +23,7 @@ public class UserInterface {
     public List<GameObject> createGameObjectsList(){
         List<GameObject> gameObjects = new ArrayList<>(500);
         try(BufferedReader mapReader = new BufferedReader(new InputStreamReader(
-                GameWorld.class.getClassLoader().getResourceAsStream("Maps/map1.csv")
+                GameWorld.class.getClassLoader().getResourceAsStream("Maps/map2.csv")
         ))){
             for(int i = 0; mapReader.ready(); i++){
                 String[] gameObjectNums = mapReader.readLine().split(",");

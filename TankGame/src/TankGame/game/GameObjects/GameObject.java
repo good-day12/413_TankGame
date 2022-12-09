@@ -75,7 +75,7 @@ public abstract class GameObject {
             case "4" ->         new ShootSpeed(x,y,Resources.getSprite("speed"));
             case "5" ->         new Health(x, y, Resources.getSprite("health"));
             case "6" ->         new Shield(x,y, Resources.getSprite("shield"));
-            default -> throw    new IllegalStateException("Unexpected value: " + type);
+            default -> throw    new IllegalStateException("Unexpected value: " + type + " " + type.getClass());
         };
     }
 

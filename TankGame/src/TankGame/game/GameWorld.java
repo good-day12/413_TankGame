@@ -145,7 +145,7 @@ public class GameWorld extends JPanel implements Runnable {
         this.t2.drawImage(buffer);
 
         this.cam.drawSplitScreen(g2, world);
-        ui.drawMiniMap(g2, world);
+        this.ui.drawMiniMap(g2, world);
     }
 
     /**

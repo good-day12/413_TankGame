@@ -13,8 +13,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
 
 public class UserInterface {
+
 
     /**
      * This will create a list of GameObjects based on the map read by the function
@@ -23,7 +26,7 @@ public class UserInterface {
     public List<GameObject> createGameObjectsList(){
         List<GameObject> gameObjects = new ArrayList<>(500);
         try(BufferedReader mapReader = new BufferedReader(new InputStreamReader(
-                GameWorld.class.getClassLoader().getResourceAsStream("Maps/map2.csv")
+                GameWorld.class.getClassLoader().getResourceAsStream(generateRandomMap())
         ))){
             for(int i = 0; mapReader.ready(); i++){
                 String[] gameObjectNums = mapReader.readLine().split(",");
@@ -66,4 +69,15 @@ public class UserInterface {
         at.scale(.2, .2);
         g.drawImage(mm, at, null);
     }
+
+    private String generateRandomMap(){
+        String pathForMap;
+        Random rand = new Random();
+        Integer mapNum = rand.nextInt(1, 4);
+
+        pathForMap = "Maps/map" + mapNum.toString() + ".csv";
+
+        return pathForMap;
+    }
+
 }

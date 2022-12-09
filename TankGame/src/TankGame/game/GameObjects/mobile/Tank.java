@@ -32,7 +32,7 @@ public class Tank extends GameObject {
     private boolean RightPressed;
     private boolean LeftPressed;
     private boolean shootPressed;
-    private long shootCoolDown = 2000; //2000 milliseconds, 2 seconds, cooldown for shooting POWERUP possibility
+    private long shootCoolDown = 1000; //1200 milliseconds, 1.2 seconds, cooldown for shooting POWERUP possibility
     private long timeLastShot = 0;
 
     //shot cooldown usage

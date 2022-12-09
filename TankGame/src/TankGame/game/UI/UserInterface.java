@@ -73,7 +73,7 @@ public class UserInterface {
     private String generateRandomMap(){
         String pathForMap;
         Random rand = new Random();
-        Integer mapNum = rand.nextInt(1, 4);
+        Integer mapNum = rand.nextInt(1, 5);
 
         pathForMap = "Maps/map" + mapNum.toString() + ".csv";
 
@@ -81,3 +81,4 @@ public class UserInterface {
     }
 
 }
+
